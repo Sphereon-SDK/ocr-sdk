@@ -18,8 +18,8 @@
         <maven-plugin-version>1.0.0</maven-plugin-version>
         <junit-version>4.12</junit-version>
         <api-version>0.3.2</api-version>
-        <sdk-package>com.sphereon.sdk.pdf</sdk-package>
-        <sdk-package-csharp>Sphereon.SDK.Pdf</sdk-package-csharp>
+        <sdk-package>com.sphereon.sdk.ocr</sdk-package>
+        <sdk-package-csharp>Sphereon.SDK.Ocr</sdk-package-csharp>
     </properties>
 
     <distributionManagement>
@@ -58,7 +58,6 @@
                                 <configuration>
                                     <!-- specify the swagger yaml -->
                                     <inputSpec>swagger.json</inputSpec>
-                                    <!--<inputSpec>https://store.sphereon.com/store/api-docs/admin/PDF/${api-version}</inputSpec>-->
 
 
                                     <!-- target to generate -->
@@ -75,7 +74,7 @@
 
                                     <output>${project.basedir}/java8</output>
                                     <groupId>com.sphereon.sdk</groupId>
-                                    <artifactId>pdf-sdk-java8</artifactId>
+                                    <artifactId>ocr-sdk-java8</artifactId>
                                     <artifactVersion>${project.version}</artifactVersion>
                                     <addCompileSourceRoot>true</addCompileSourceRoot>
                                     <apiPackage>${sdk-package}.api</apiPackage>
@@ -110,7 +109,6 @@
                                 <configuration>
                                     <!-- specify the swagger yaml -->
                                     <inputSpec>swagger.json</inputSpec>
-                                    <!--<inputSpec>https://store.sphereon.com/store/api-docs/admin/PDF/${api-version}</inputSpec>-->
 
                                     <!-- target to generate -->
                                     <language>csharp</language>
@@ -135,7 +133,7 @@
 
                                     <output>${project.basedir}/csharp-net45</output>
                                     <groupId>com.sphereon.sdk</groupId>
-                                    <artifactId>pdf-sdk-csharp-net45</artifactId>
+                                    <artifactId>ocr-sdk-csharp-net45</artifactId>
                                     <artifactVersion>${project.version}</artifactVersion>
                                     <addCompileSourceRoot>true</addCompileSourceRoot>
 

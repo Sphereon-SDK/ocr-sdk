@@ -1,0 +1,670 @@
+{
+  "basePath": "/",
+  "paths": {
+    "/ocr/1.0.0/ocr/{jobid}/result": {"get": {
+      "summary": "Get the current ocr result",
+      "security": [{"oauth2schema": ["global"]}],
+      "produces": ["application/json;charset=UTF-8"],
+      "description": "Get the OCR result\r\nOur API generation does not allow changing the media type based on the Accepted header unfortunately.<br/>This means we use a seperate path postfix with the value '/result'.\r\nThis API only returns the OCR when the response status code is 200! In other cases nothing is returned or the Job JSON when it is still being executed",
+      "operationId": "getOcrResult",
+      "responses": {
+        "200": {
+          "schema": {"$ref": "#/definitions/OCRResultResponse"},
+          "description": "OCR successfully created and returned"
+        },
+        "400": {
+          "schema": {"$ref": "#/definitions/ErrorResponse"},
+          "description": "OCR could not be created."
+        },
+        "202": {
+          "schema": {"$ref": "#/definitions/OCRJobResponse"},
+          "description": "OCR not yet created. Job is still executing. Will return the JSON job instead of the OCR"
+        },
+        "404": {
+          "schema": {"$ref": "#/definitions/ErrorResponse"},
+          "description": "Invalid job id. No response body is supplied"
+        }
+      },
+      "parameters": [{
+        "in": "path",
+        "name": "jobid",
+        "description": "jobid",
+        "type": "string",
+        "required": true
+      }],
+      "tags": ["ocr"],
+      "consumes": ["application/json"]
+    }},
+    "/ocr/1.0.0/ocr": {
+      "post": {
+        "summary": "Upload first file",
+        "security": [{"oauth2schema": ["global"]}],
+        "produces": ["application/json;charset=UTF-8"],
+        "description": "Upload the first image, office or ocr file.",
+        "operationId": "uploadFile",
+        "responses": {"200": {
+          "schema": {"$ref": "#/definitions/OCRJobResponse"},
+          "description": "First file uploaded successfully. OCR job created but not started yet"
+        }},
+        "parameters": [{
+          "in": "formData",
+          "name": "stream",
+          "description": "The image file to convert to OCR",
+          "type": "file",
+          "required": true
+        }],
+        "tags": ["ocr"],
+        "consumes": ["multipart/form-data"]
+      },
+      "get": {
+        "summary": "Get all jobs",
+        "security": [{"oauth2schema": ["global"]}],
+        "produces": ["application/json;charset=UTF-8"],
+        "description": "Get all OCR job definitions and their current state.",
+        "operationId": "getJobs",
+        "responses": {"200": {
+          "schema": {"$ref": "#/definitions/OCRJobResponse"},
+          "description": "All OCR jobs that have not been deleted"
+        }},
+        "parameters": [{
+          "in": "query",
+          "name": "status",
+          "description": "A list of status to filter on.",
+          "type": "array",
+          "items": {
+            "type": "string",
+            "enum": [
+              "INPUTS_UPLOADED",
+              "PROCESSING",
+              "DONE",
+              "ERROR",
+              "DELETED"
+            ]
+          },
+          "collectionFormat": "multi",
+          "required": false,
+          "enum": [
+            "INPUTS_UPLOADED",
+            "PROCESSING",
+            "DONE",
+            "ERROR",
+            "DELETED"
+          ]
+        }],
+        "tags": ["ocr"],
+        "consumes": ["application/json"]
+      }
+    },
+    "/ocr/1.0.0/ocr/{jobid}": {
+      "get": {
+        "summary": "Job definition and state",
+        "security": [{"oauth2schema": ["global"]}],
+        "produces": ["application/json;charset=UTF-8"],
+        "description": "Get the OCR job definition and current state. Please not that you can differentiate based on http response status",
+        "operationId": "getJob",
+        "responses": {
+          "200": {
+            "schema": {"$ref": "#/definitions/OCRJobResponse"},
+            "description": "OCR job returned and Job is done or in error"
+          },
+          "202": {
+            "schema": {"$ref": "#/definitions/OCRJobResponse"},
+            "description": "OCR job returned and Job is still processing"
+          },
+          "404": {
+            "schema": {"$ref": "#/definitions/ErrorResponse"},
+            "description": "Invalid job id"
+          }
+        },
+        "parameters": [{
+          "in": "path",
+          "name": "jobid",
+          "description": "jobid",
+          "type": "string",
+          "required": true
+        }],
+        "tags": ["ocr"],
+        "consumes": ["application/json"]
+      },
+      "delete": {
+        "summary": "Delete a job manually",
+        "security": [{"oauth2schema": ["global"]}],
+        "produces": ["application/json;charset=UTF-8"],
+        "description": "Delete the OCR job and all related files",
+        "operationId": "deleteJob",
+        "responses": {
+          "200": {
+            "schema": {"$ref": "#/definitions/OCRJobResponse"},
+            "description": "OCR job returned and Job is done or in error"
+          },
+          "400": {
+            "schema": {"$ref": "#/definitions/ErrorResponse"},
+            "description": "Could not delete all parts"
+          },
+          "404": {
+            "schema": {"$ref": "#/definitions/ErrorResponse"},
+            "description": "Invalid job id"
+          }
+        },
+        "parameters": [{
+          "in": "path",
+          "name": "jobid",
+          "description": "jobid",
+          "type": "string",
+          "required": true
+        }],
+        "tags": ["ocr"],
+        "consumes": ["application/json"]
+      },
+      "put": {
+        "summary": "Submit OCR job for processing",
+        "security": [{"oauth2schema": ["global"]}],
+        "produces": ["application/json;charset=UTF-8"],
+        "description": "Convert the previously uploaded file(s) to OCR, using the supplied settings associated with the job in the request body. You can only submit the job after a new Job is created with status INPUTS_UPLOADED or resubmit an existing Job with status ERROR. In all cases the job Id in the path must match the jobId in the request",
+        "operationId": "submitJob",
+        "responses": {
+          "200": {
+            "schema": {"$ref": "#/definitions/OCRJobResponse"},
+            "description": "OCR job submitted"
+          },
+          "400": {
+            "schema": {"$ref": "#/definitions/ErrorResponse"},
+            "description": "Resubmitted job not allowed because the job is currently processing or already processed and had status DONE"
+          },
+          "404": {
+            "schema": {"$ref": "#/definitions/ErrorResponse"},
+            "description": "Invalid job id"
+          }
+        },
+        "parameters": [
+          {
+            "in": "path",
+            "name": "jobid",
+            "description": "jobid",
+            "type": "string",
+            "required": true
+          },
+          {
+            "schema": {"$ref": "#/definitions/OCRJob"},
+            "in": "body",
+            "name": "job",
+            "description": "jobEntity",
+            "required": true
+          }
+        ],
+        "tags": ["ocr"],
+        "consumes": ["application/json;charset=UTF-8"]
+      }
+    }
+  },
+  "host": "gw.api.cloud.sphereon.com",
+  "schemes": ["https"],
+  "securityDefinitions": {"oauth2schema": {
+    "tokenUrl": "https://gw.api.cloud.sphereon.com/token",
+    "scopes": {"global": "accessEverything"},
+    "type": "oauth2",
+    "flow": "application"
+  }},
+  "definitions": {
+    "OCRResultResponse": {
+      "description": "The OCR result",
+      "type": "object",
+      "required": [
+        "inputs",
+        "status"
+      ],
+      "properties": {
+        "completionTime": {
+          "format": "date-time",
+          "description": "The completion date/time of this job in ISO 8601 format",
+          "readOnly": true,
+          "type": "string"
+        },
+        "jobId": {"type": "string"},
+        "ocrResult": {"$ref": "#/definitions/OCRResult"},
+        "creationTime": {
+          "format": "date-time",
+          "description": "The creation date/time of this job in ISO 8601 format",
+          "readOnly": true,
+          "type": "string"
+        },
+        "ocrtasks": {
+          "type": "array",
+          "items": {"$ref": "#/definitions/OcrTask"}
+        },
+        "inputs": {
+          "description": "The original input files. Currently supported inputs are: tiffs",
+          "type": "array",
+          "items": {"type": "string"}
+        },
+        "updateTime": {
+          "format": "date-time",
+          "description": "The last update date/time of this job in ISO 8601 format",
+          "readOnly": true,
+          "type": "string"
+        },
+        "job": {"$ref": "#/definitions/OCRJob"},
+        "statusMessage": {
+          "description": "A status message, which can be informational, warning or error. AA message here does not indicate an error perse",
+          "readOnly": true,
+          "type": "string"
+        },
+        "queueTime": {
+          "format": "date-time",
+          "description": "The conversion queue date/time of this job in ISO 8601 format",
+          "readOnly": true,
+          "type": "string"
+        },
+        "status": {
+          "description": "The status of the job",
+          "readOnly": true,
+          "type": "string",
+          "enum": [
+            "INPUTS_UPLOADED",
+            "PROCESSING",
+            "DONE",
+            "ERROR",
+            "DELETED"
+          ]
+        }
+      }
+    },
+    "Word": {
+      "description": "word",
+      "type": "object",
+      "required": ["item"],
+      "properties": {"item": {"$ref": "#/definitions/Item"}}
+    },
+    "OCRResult": {
+      "description": "OCRResult",
+      "type": "object",
+      "required": [
+        "id",
+        "pages",
+        "textEngines"
+      ],
+      "properties": {
+        "textEngines": {
+          "description": "OCR engines used",
+          "type": "array",
+          "items": {"type": "string"}
+        },
+        "pages": {
+          "description": "pages",
+          "type": "array",
+          "items": {"$ref": "#/definitions/Page"}
+        },
+        "id": {
+          "description": "unique id",
+          "type": "string"
+        }
+      }
+    },
+    "Lifecycle": {
+      "description": "Lifecycle settings. When no lifecycle settings are supplied, the job and files will be deleted directly after retrieval of the file",
+      "type": "object",
+      "properties": {
+        "actionTime": {
+          "format": "date-time",
+          "description": "The time at which the job and files will be deleted, regardless of whether it has been retrieved or not. Maximal time is 1 day from job creation",
+          "type": "string"
+        },
+        "action": {
+          "type": "string",
+          "enum": ["DELETE"]
+        },
+        "type": {
+          "type": "string",
+          "enum": [
+            "RETRIEVAL",
+            "TIME"
+          ]
+        }
+      }
+    },
+    "Error": {
+      "description": "An error",
+      "type": "object",
+      "required": [
+        "code",
+        "level",
+        "message"
+      ],
+      "properties": {
+        "code": {"type": "string"},
+        "level": {
+          "type": "string",
+          "enum": [
+            "INFO",
+            "WARNING",
+            "FATAL"
+          ]
+        },
+        "cause": {"$ref": "#/definitions/Error"},
+        "message": {"type": "string"}
+      }
+    },
+    "OcrTask": {
+      "type": "object",
+      "properties": {
+        "jobId": {
+          "description": "The current job Id",
+          "readOnly": true,
+          "type": "string"
+        },
+        "queueId": {
+          "description": "The queue Id provided by a backend system",
+          "readOnly": true,
+          "type": "string"
+        },
+        "engine": {
+          "description": "The Engine being used",
+          "readOnly": true,
+          "type": "string",
+          "enum": [
+            "ADVANCED",
+            "PREMIUM",
+            "BASIC"
+          ]
+        },
+        "inputs": {
+          "description": "The name of the supplied file/input",
+          "readOnly": true,
+          "type": "array",
+          "items": {"type": "string"}
+        },
+        "documentId": {
+          "description": "The document Id provided by a backend system",
+          "readOnly": true,
+          "type": "string"
+        },
+        "url": {
+          "description": "The URL on the bucketstore for the ocr. Only available once the status is DONE",
+          "readOnly": true,
+          "type": "string"
+        },
+        "status": {
+          "description": "The status of the OCR task itself",
+          "readOnly": true,
+          "type": "string",
+          "enum": [
+            "REQUESTED",
+            "QUEUED",
+            "PROCESSING",
+            "DONE",
+            "ERROR"
+          ]
+        }
+      }
+    },
+    "Page": {
+      "description": "page",
+      "type": "object",
+      "required": [
+        "input",
+        "number",
+        "passes"
+      ],
+      "properties": {
+        "input": {"$ref": "#/definitions/Input"},
+        "number": {
+          "format": "int32",
+          "description": "page number",
+          "type": "integer"
+        },
+        "passes": {
+          "type": "array",
+          "items": {"$ref": "#/definitions/Pass"}
+        }
+      }
+    },
+    "Point": {
+      "description": "point",
+      "type": "object",
+      "required": [
+        "x",
+        "y"
+      ],
+      "properties": {
+        "x": {
+          "format": "double",
+          "description": "x-coordinate",
+          "type": "number"
+        },
+        "y": {
+          "format": "double",
+          "description": "y-coordinate",
+          "type": "number"
+        }
+      }
+    },
+    "ErrorResponse": {
+      "description": "The error response",
+      "type": "object",
+      "properties": {"errors": {
+        "type": "array",
+        "items": {"$ref": "#/definitions/Error"}
+      }}
+    },
+    "Line": {
+      "description": "Line",
+      "type": "object",
+      "required": ["item"],
+      "properties": {"item": {"$ref": "#/definitions/Item"}}
+    },
+    "Item": {
+      "type": "object",
+      "required": [
+        "confidence",
+        "region",
+        "text"
+      ],
+      "properties": {
+        "confidence": {
+          "format": "float",
+          "description": "confidence value of the text found by the OCR engine",
+          "type": "number"
+        },
+        "text": {
+          "description": "the text found by the OCR engine",
+          "type": "string"
+        },
+        "region": {"$ref": "#/definitions/Region"}
+      }
+    },
+    "Input": {
+      "description": "Input",
+      "type": "object",
+      "required": [
+        "height",
+        "rotation",
+        "skew",
+        "width"
+      ],
+      "properties": {
+        "rotation": {
+          "format": "double",
+          "description": "rotation of the inputdocument",
+          "type": "number"
+        },
+        "width": {
+          "format": "double",
+          "description": "width of the inputdocument",
+          "type": "number"
+        },
+        "height": {
+          "format": "double",
+          "description": "height of the inputdocument",
+          "type": "number"
+        },
+        "skew": {
+          "format": "double",
+          "description": "skew of the inputdocument",
+          "type": "number"
+        }
+      }
+    },
+    "Anchor": {
+      "description": "Anchor",
+      "type": "object",
+      "required": ["point"],
+      "properties": {
+        "percentage": {"$ref": "#/definitions/Point"},
+        "point": {"$ref": "#/definitions/Point"}
+      }
+    },
+    "Pass": {
+      "description": "pass",
+      "type": "object",
+      "required": [
+        "lines",
+        "pass",
+        "words"
+      ],
+      "properties": {
+        "pass": {
+          "format": "int32",
+          "description": "pass number",
+          "type": "integer"
+        },
+        "words": {
+          "description": "words found by OCR engine",
+          "type": "array",
+          "items": {"$ref": "#/definitions/Word"}
+        },
+        "lines": {
+          "description": "lines found by OCR engine",
+          "type": "array",
+          "items": {"$ref": "#/definitions/Line"}
+        }
+      }
+    },
+    "OCRSettings": {
+      "description": "Ocr settings",
+      "type": "object",
+      "properties": {
+        "lifecycle": {"$ref": "#/definitions/Lifecycle"},
+        "engine": {
+          "type": "string",
+          "enum": [
+            "BASIC",
+            "ADVANCED",
+            "PREMIUM"
+          ]
+        }
+      }
+    },
+    "Region": {
+      "description": "region",
+      "type": "object",
+      "required": [
+        "bottomLeft",
+        "bottomRight",
+        "center",
+        "topLeft",
+        "topRight"
+      ],
+      "properties": {
+        "bottomLeft": {"$ref": "#/definitions/Anchor"},
+        "bottomRight": {"$ref": "#/definitions/Anchor"},
+        "center": {"$ref": "#/definitions/Anchor"},
+        "topLeft": {"$ref": "#/definitions/Anchor"},
+        "topRight": {"$ref": "#/definitions/Anchor"}
+      }
+    },
+    "OCRJobResponse": {
+      "description": "The OCR job. Has access to the job settings as well as ocr engine tasks",
+      "type": "object",
+      "required": [
+        "inputs",
+        "status"
+      ],
+      "properties": {
+        "completionTime": {
+          "format": "date-time",
+          "description": "The completion date/time of this job in ISO 8601 format",
+          "readOnly": true,
+          "type": "string"
+        },
+        "jobId": {"type": "string"},
+        "creationTime": {
+          "format": "date-time",
+          "description": "The creation date/time of this job in ISO 8601 format",
+          "readOnly": true,
+          "type": "string"
+        },
+        "ocrtasks": {
+          "type": "array",
+          "items": {"$ref": "#/definitions/OcrTask"}
+        },
+        "inputs": {
+          "description": "The original input files. Currently supported inputs are: tiffs",
+          "type": "array",
+          "items": {"type": "string"}
+        },
+        "updateTime": {
+          "format": "date-time",
+          "description": "The last update date/time of this job in ISO 8601 format",
+          "readOnly": true,
+          "type": "string"
+        },
+        "job": {"$ref": "#/definitions/OCRJob"},
+        "statusMessage": {
+          "description": "A status message, which can be informational, warning or error. AA message here does not indicate an error perse",
+          "readOnly": true,
+          "type": "string"
+        },
+        "queueTime": {
+          "format": "date-time",
+          "description": "The conversion queue date/time of this job in ISO 8601 format",
+          "readOnly": true,
+          "type": "string"
+        },
+        "status": {
+          "description": "The status of the job",
+          "readOnly": true,
+          "type": "string",
+          "enum": [
+            "INPUTS_UPLOADED",
+            "PROCESSING",
+            "DONE",
+            "ERROR",
+            "DELETED"
+          ]
+        }
+      }
+    },
+    "OCRJob": {
+      "description": "The OCR job. Has access to the job settings.",
+      "type": "object",
+      "required": ["jobId"],
+      "properties": {
+        "jobId": {
+          "description": "The server generated job jobId. This jobId is checked against the jobId in the request path on overy invocation",
+          "type": "string"
+        },
+        "settings": {"$ref": "#/definitions/OCRSettings"}
+      }
+    }
+  },
+  "swagger": "2.0",
+  "info": {
+    "license": {
+      "name": "Apache License Version 2.0",
+      "url": "http://www.apache.org/licenses/LICENSE-2.0"
+    },
+    "contact": {
+      "name": "Sphereon DevOps Team",
+      "url": "https://sphereon.com",
+      "email": "dev@sphereon.com"
+    },
+    "description": "<b>The OCR API 'ocr' extracts ocr from input files.<\/b>\r\n\r\nThe flow is generally as follows:\r\n1. First upload an image/file using the /ocr POST endpoint. You will get back a job response that contains a job with its associated settings.\r\n2. Start the job from a PUT request to the /ocr/{jobid} endpoint, with the Job and Settings JSON as request body. The ocr extraction will now start.\r\n3. Check the job status from the /ocr/{jobid} GET endpoint until the status has changed to DONE or ERROR. Messaging using a websocket will be available as an alternative in a future version\r\n4. Retrieve the OCR result using the /ocr/{jobid}/result GET endpoint. This will return the OCR result only when the status is DONE. In other cases it will return the Job Response JSON (with http code 202 instead of 200)\r\n\r\n\r\n<b>Interactive testing: <\/b>A web based test console is available in the <a href=\"https://store.sphereon.com\">Sphereon API Store<\/a>",
+    "termsOfService": "https://sphereon.com",
+    "title": "OCR ",
+    "version": "1.0.0"
+  },
+  "tags": [{
+    "name": "ocr",
+    "description": "Optical Character Recognition API"
+  }]
+}
