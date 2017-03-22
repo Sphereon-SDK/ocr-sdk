@@ -1,7 +1,7 @@
 /* 
- * OCR 
+ * OCR
  *
- * <b>The OCR API 'ocr' extracts ocr from input files.</b>    The flow is generally as follows:  1. First upload an image/file using the /ocr POST endpoint. You will get back a job response that contains a job with its associated settings.  2. Start the job from a PUT request to the /ocr/{jobid} endpoint, with the Job and Settings JSON as request body. The ocr extraction will now start.  3. Check the job status from the /ocr/{jobid} GET endpoint until the status has changed to DONE or ERROR. Messaging using a websocket will be available as an alternative in a future version  4. Retrieve the OCR result using the /ocr/{jobid}/result GET endpoint. This will return the OCR result only when the status is DONE. In other cases it will return the Job Response JSON (with http code 202 instead of 200)      <b>Interactive testing: </b>A web based test console is available in the <a href=\"https://store.sphereon.com\">Sphereon API Store</a>
+ * <b>The OCR API 'ocr' performs Optical Character Resolution on input files.</b>    The flow is generally as follows:  1. First upload an image/file using the /ocr POST endpoint. You will get back a job response that contains a job with its associated settings.  2. Start the job from a PUT request to the /ocr/{jobid} endpoint, with the Job and Settings JSON as request body. The ocr extraction will now start.  3. Check the job status from the /ocr/{jobid} GET endpoint until the status has changed to DONE or ERROR. Messaging using a websocket will be available as an alternative in a future version  4. Retrieve the OCR result using the /ocr/{jobid}/result GET endpoint. This will return the OCR result only when the status is DONE. In other cases it will return the Job Response JSON (with http code 202 instead of 200)      <b>Interactive testing: </b>A web based test console is available in the <a href=\"https://store.sphereon.com\">Sphereon API Store</a>
  *
  * OpenAPI spec version: 1.0.0
  * Contact: dev@sphereon.com
@@ -34,11 +34,44 @@ using Newtonsoft.Json.Converters;
 namespace Sphereon.SDK.Ocr.Model
 {
     /// <summary>
-    /// OCRResult
+    /// OCR Result
     /// </summary>
     [DataContract]
     public partial class OCRResult :  IEquatable<OCRResult>
     {
+
+        /// <summary>
+        /// Gets or Sets Engines
+        /// </summary>
+        [JsonConverter(typeof(StringEnumConverter))]
+        public enum EnginesEnum
+        {
+            
+            /// <summary>
+            /// Enum ADVANCED for "ADVANCED"
+            /// </summary>
+            [EnumMember(Value = "ADVANCED")]
+            ADVANCED,
+            
+            /// <summary>
+            /// Enum PREMIUM for "PREMIUM"
+            /// </summary>
+            [EnumMember(Value = "PREMIUM")]
+            PREMIUM,
+            
+            /// <summary>
+            /// Enum BASIC for "BASIC"
+            /// </summary>
+            [EnumMember(Value = "BASIC")]
+            BASIC
+        }
+
+        /// <summary>
+        /// OCR engines used
+        /// </summary>
+        /// <value>OCR engines used</value>
+        [DataMember(Name="engines", EmitDefaultValue=false)]
+        public List<EnginesEnum> Engines { get; set; }
         /// <summary>
         /// Initializes a new instance of the <see cref="OCRResult" /> class.
         /// </summary>
@@ -47,20 +80,11 @@ namespace Sphereon.SDK.Ocr.Model
         /// <summary>
         /// Initializes a new instance of the <see cref="OCRResult" /> class.
         /// </summary>
-        /// <param name="TextEngines">OCR engines used (required).</param>
         /// <param name="Pages">pages (required).</param>
+        /// <param name="Engines">OCR engines used (required).</param>
         /// <param name="Id">unique id (required).</param>
-        public OCRResult(List<string> TextEngines = null, List<Page> Pages = null, string Id = null)
+        public OCRResult(List<Page> Pages = null, List<EnginesEnum> Engines = null, string Id = null)
         {
-            // to ensure "TextEngines" is required (not null)
-            if (TextEngines == null)
-            {
-                throw new InvalidDataException("TextEngines is a required property for OCRResult and cannot be null");
-            }
-            else
-            {
-                this.TextEngines = TextEngines;
-            }
             // to ensure "Pages" is required (not null)
             if (Pages == null)
             {
@@ -69,6 +93,15 @@ namespace Sphereon.SDK.Ocr.Model
             else
             {
                 this.Pages = Pages;
+            }
+            // to ensure "Engines" is required (not null)
+            if (Engines == null)
+            {
+                throw new InvalidDataException("Engines is a required property for OCRResult and cannot be null");
+            }
+            else
+            {
+                this.Engines = Engines;
             }
             // to ensure "Id" is required (not null)
             if (Id == null)
@@ -81,12 +114,6 @@ namespace Sphereon.SDK.Ocr.Model
             }
         }
         
-        /// <summary>
-        /// OCR engines used
-        /// </summary>
-        /// <value>OCR engines used</value>
-        [DataMember(Name="textEngines", EmitDefaultValue=false)]
-        public List<string> TextEngines { get; set; }
         /// <summary>
         /// pages
         /// </summary>
@@ -107,8 +134,8 @@ namespace Sphereon.SDK.Ocr.Model
         {
             var sb = new StringBuilder();
             sb.Append("class OCRResult {\n");
-            sb.Append("  TextEngines: ").Append(TextEngines).Append("\n");
             sb.Append("  Pages: ").Append(Pages).Append("\n");
+            sb.Append("  Engines: ").Append(Engines).Append("\n");
             sb.Append("  Id: ").Append(Id).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
@@ -147,14 +174,14 @@ namespace Sphereon.SDK.Ocr.Model
 
             return 
                 (
-                    this.TextEngines == other.TextEngines ||
-                    this.TextEngines != null &&
-                    this.TextEngines.SequenceEqual(other.TextEngines)
-                ) && 
-                (
                     this.Pages == other.Pages ||
                     this.Pages != null &&
                     this.Pages.SequenceEqual(other.Pages)
+                ) && 
+                (
+                    this.Engines == other.Engines ||
+                    this.Engines != null &&
+                    this.Engines.SequenceEqual(other.Engines)
                 ) && 
                 (
                     this.Id == other.Id ||
@@ -174,10 +201,10 @@ namespace Sphereon.SDK.Ocr.Model
             {
                 int hash = 41;
                 // Suitable nullity checks etc, of course :)
-                if (this.TextEngines != null)
-                    hash = hash * 59 + this.TextEngines.GetHashCode();
                 if (this.Pages != null)
                     hash = hash * 59 + this.Pages.GetHashCode();
+                if (this.Engines != null)
+                    hash = hash * 59 + this.Engines.GetHashCode();
                 if (this.Id != null)
                     hash = hash * 59 + this.Id.GetHashCode();
                 return hash;

@@ -1,4 +1,4 @@
-# Sphereon.SDK.Ocr.Model.OcrTask
+# Sphereon.SDK.Ocr.Model.OCRTask
 ## Properties
 
 Name | Type | Description | Notes

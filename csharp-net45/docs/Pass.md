@@ -3,6 +3,7 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
+**Engine** | **string** | OCR engine used in this pass | 
 **_Pass** | **int?** | pass number | 
 **Words** | [**List&lt;Word&gt;**](Word.md) | words found by OCR engine | 
 **Lines** | [**List&lt;Line&gt;**](Line.md) | lines found by OCR engine | 

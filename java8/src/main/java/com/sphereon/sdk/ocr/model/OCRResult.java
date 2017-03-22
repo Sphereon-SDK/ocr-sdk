@@ -1,6 +1,6 @@
 /**
- * OCR 
- * <b>The OCR API 'ocr' extracts ocr from input files.</b>    The flow is generally as follows:  1. First upload an image/file using the /ocr POST endpoint. You will get back a job response that contains a job with its associated settings.  2. Start the job from a PUT request to the /ocr/{jobid} endpoint, with the Job and Settings JSON as request body. The ocr extraction will now start.  3. Check the job status from the /ocr/{jobid} GET endpoint until the status has changed to DONE or ERROR. Messaging using a websocket will be available as an alternative in a future version  4. Retrieve the OCR result using the /ocr/{jobid}/result GET endpoint. This will return the OCR result only when the status is DONE. In other cases it will return the Job Response JSON (with http code 202 instead of 200)      <b>Interactive testing: </b>A web based test console is available in the <a href=\"https://store.sphereon.com\">Sphereon API Store</a>
+ * OCR
+ * <b>The OCR API 'ocr' performs Optical Character Resolution on input files.</b>    The flow is generally as follows:  1. First upload an image/file using the /ocr POST endpoint. You will get back a job response that contains a job with its associated settings.  2. Start the job from a PUT request to the /ocr/{jobid} endpoint, with the Job and Settings JSON as request body. The ocr extraction will now start.  3. Check the job status from the /ocr/{jobid} GET endpoint until the status has changed to DONE or ERROR. Messaging using a websocket will be available as an alternative in a future version  4. Retrieve the OCR result using the /ocr/{jobid}/result GET endpoint. This will return the OCR result only when the status is DONE. In other cases it will return the Job Response JSON (with http code 202 instead of 200)      <b>Interactive testing: </b>A web based test console is available in the <a href=\"https://store.sphereon.com\">Sphereon API Store</a>
  *
  * OpenAPI spec version: 1.0.0
  * Contact: dev@sphereon.com
@@ -35,42 +35,44 @@ import java.util.List;
 
 
 /**
- * OCRResult
+ * OCR Result
  */
-@ApiModel(description = "OCRResult")
-@javax.annotation.Generated(value = "class io.swagger.codegen.languages.JavaClientCodegen", date = "2017-03-21T15:21:53.416+01:00")
+@ApiModel(description = "OCR Result")
+@javax.annotation.Generated(value = "class io.swagger.codegen.languages.JavaClientCodegen", date = "2017-03-22T10:09:02.404+01:00")
 public class OCRResult   {
-  @SerializedName("textEngines")
-  private List<String> textEngines = new ArrayList<String>();
-
   @SerializedName("pages")
   private List<Page> pages = new ArrayList<Page>();
 
+  /**
+   * Gets or Sets engines
+   */
+  public enum EnginesEnum {
+    @SerializedName("ADVANCED")
+    ADVANCED("ADVANCED"),
+    
+    @SerializedName("PREMIUM")
+    PREMIUM("PREMIUM"),
+    
+    @SerializedName("BASIC")
+    BASIC("BASIC");
+
+    private String value;
+
+    EnginesEnum(String value) {
+      this.value = value;
+    }
+
+    @Override
+    public String toString() {
+      return String.valueOf(value);
+    }
+  }
+
+  @SerializedName("engines")
+  private List<EnginesEnum> engines = new ArrayList<EnginesEnum>();
+
   @SerializedName("id")
   private String id = null;
-
-  public OCRResult textEngines(List<String> textEngines) {
-    this.textEngines = textEngines;
-    return this;
-  }
-
-  public OCRResult addTextEnginesItem(String textEnginesItem) {
-    this.textEngines.add(textEnginesItem);
-    return this;
-  }
-
-   /**
-   * OCR engines used
-   * @return textEngines
-  **/
-  @ApiModelProperty(example = "null", required = true, value = "OCR engines used")
-  public List<String> getTextEngines() {
-    return textEngines;
-  }
-
-  public void setTextEngines(List<String> textEngines) {
-    this.textEngines = textEngines;
-  }
 
   public OCRResult pages(List<Page> pages) {
     this.pages = pages;
@@ -93,6 +95,29 @@ public class OCRResult   {
 
   public void setPages(List<Page> pages) {
     this.pages = pages;
+  }
+
+  public OCRResult engines(List<EnginesEnum> engines) {
+    this.engines = engines;
+    return this;
+  }
+
+  public OCRResult addEnginesItem(EnginesEnum enginesItem) {
+    this.engines.add(enginesItem);
+    return this;
+  }
+
+   /**
+   * OCR engines used
+   * @return engines
+  **/
+  @ApiModelProperty(example = "null", required = true, value = "OCR engines used")
+  public List<EnginesEnum> getEngines() {
+    return engines;
+  }
+
+  public void setEngines(List<EnginesEnum> engines) {
+    this.engines = engines;
   }
 
   public OCRResult id(String id) {
@@ -123,14 +148,14 @@ public class OCRResult   {
       return false;
     }
     OCRResult oCRResult = (OCRResult) o;
-    return Objects.equals(this.textEngines, oCRResult.textEngines) &&
-        Objects.equals(this.pages, oCRResult.pages) &&
+    return Objects.equals(this.pages, oCRResult.pages) &&
+        Objects.equals(this.engines, oCRResult.engines) &&
         Objects.equals(this.id, oCRResult.id);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(textEngines, pages, id);
+    return Objects.hash(pages, engines, id);
   }
 
   @Override
@@ -138,8 +163,8 @@ public class OCRResult   {
     StringBuilder sb = new StringBuilder();
     sb.append("class OCRResult {\n");
     
-    sb.append("    textEngines: ").append(toIndentedString(textEngines)).append("\n");
     sb.append("    pages: ").append(toIndentedString(pages)).append("\n");
+    sb.append("    engines: ").append(toIndentedString(engines)).append("\n");
     sb.append("    id: ").append(toIndentedString(id)).append("\n");
     sb.append("}");
     return sb.toString();

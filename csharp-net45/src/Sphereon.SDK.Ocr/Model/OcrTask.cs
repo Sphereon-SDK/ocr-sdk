@@ -1,7 +1,7 @@
 /* 
- * OCR 
+ * OCR
  *
- * <b>The OCR API 'ocr' extracts ocr from input files.</b>    The flow is generally as follows:  1. First upload an image/file using the /ocr POST endpoint. You will get back a job response that contains a job with its associated settings.  2. Start the job from a PUT request to the /ocr/{jobid} endpoint, with the Job and Settings JSON as request body. The ocr extraction will now start.  3. Check the job status from the /ocr/{jobid} GET endpoint until the status has changed to DONE or ERROR. Messaging using a websocket will be available as an alternative in a future version  4. Retrieve the OCR result using the /ocr/{jobid}/result GET endpoint. This will return the OCR result only when the status is DONE. In other cases it will return the Job Response JSON (with http code 202 instead of 200)      <b>Interactive testing: </b>A web based test console is available in the <a href=\"https://store.sphereon.com\">Sphereon API Store</a>
+ * <b>The OCR API 'ocr' performs Optical Character Resolution on input files.</b>    The flow is generally as follows:  1. First upload an image/file using the /ocr POST endpoint. You will get back a job response that contains a job with its associated settings.  2. Start the job from a PUT request to the /ocr/{jobid} endpoint, with the Job and Settings JSON as request body. The ocr extraction will now start.  3. Check the job status from the /ocr/{jobid} GET endpoint until the status has changed to DONE or ERROR. Messaging using a websocket will be available as an alternative in a future version  4. Retrieve the OCR result using the /ocr/{jobid}/result GET endpoint. This will return the OCR result only when the status is DONE. In other cases it will return the Job Response JSON (with http code 202 instead of 200)      <b>Interactive testing: </b>A web based test console is available in the <a href=\"https://store.sphereon.com\">Sphereon API Store</a>
  *
  * OpenAPI spec version: 1.0.0
  * Contact: dev@sphereon.com
@@ -34,10 +34,10 @@ using Newtonsoft.Json.Converters;
 namespace Sphereon.SDK.Ocr.Model
 {
     /// <summary>
-    /// OcrTask
+    /// OCR Task
     /// </summary>
     [DataContract]
-    public partial class OcrTask :  IEquatable<OcrTask>
+    public partial class OCRTask :  IEquatable<OCRTask>
     {
         /// <summary>
         /// The Engine being used
@@ -118,10 +118,10 @@ namespace Sphereon.SDK.Ocr.Model
         [DataMember(Name="status", EmitDefaultValue=false)]
         public StatusEnum? Status { get; set; }
         /// <summary>
-        /// Initializes a new instance of the <see cref="OcrTask" /> class.
+        /// Initializes a new instance of the <see cref="OCRTask" /> class.
         /// </summary>
         /// <param name="Inputs">The name of the supplied file/input.</param>
-        public OcrTask(List<string> Inputs = null)
+        public OCRTask(List<string> Inputs = null)
         {
             this.Inputs = Inputs;
         }
@@ -163,7 +163,7 @@ namespace Sphereon.SDK.Ocr.Model
         public override string ToString()
         {
             var sb = new StringBuilder();
-            sb.Append("class OcrTask {\n");
+            sb.Append("class OCRTask {\n");
             sb.Append("  JobId: ").Append(JobId).Append("\n");
             sb.Append("  QueueId: ").Append(QueueId).Append("\n");
             sb.Append("  Engine: ").Append(Engine).Append("\n");
@@ -192,15 +192,15 @@ namespace Sphereon.SDK.Ocr.Model
         public override bool Equals(object obj)
         {
             // credit: http://stackoverflow.com/a/10454552/677735
-            return this.Equals(obj as OcrTask);
+            return this.Equals(obj as OCRTask);
         }
 
         /// <summary>
-        /// Returns true if OcrTask instances are equal
+        /// Returns true if OCRTask instances are equal
         /// </summary>
-        /// <param name="other">Instance of OcrTask to be compared</param>
+        /// <param name="other">Instance of OCRTask to be compared</param>
         /// <returns>Boolean</returns>
-        public bool Equals(OcrTask other)
+        public bool Equals(OCRTask other)
         {
             // credit: http://stackoverflow.com/a/10454552/677735
             if (other == null)

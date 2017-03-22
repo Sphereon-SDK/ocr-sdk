@@ -1,7 +1,7 @@
 /* 
- * OCR 
+ * OCR
  *
- * <b>The OCR API 'ocr' extracts ocr from input files.</b>    The flow is generally as follows:  1. First upload an image/file using the /ocr POST endpoint. You will get back a job response that contains a job with its associated settings.  2. Start the job from a PUT request to the /ocr/{jobid} endpoint, with the Job and Settings JSON as request body. The ocr extraction will now start.  3. Check the job status from the /ocr/{jobid} GET endpoint until the status has changed to DONE or ERROR. Messaging using a websocket will be available as an alternative in a future version  4. Retrieve the OCR result using the /ocr/{jobid}/result GET endpoint. This will return the OCR result only when the status is DONE. In other cases it will return the Job Response JSON (with http code 202 instead of 200)      <b>Interactive testing: </b>A web based test console is available in the <a href=\"https://store.sphereon.com\">Sphereon API Store</a>
+ * <b>The OCR API 'ocr' performs Optical Character Resolution on input files.</b>    The flow is generally as follows:  1. First upload an image/file using the /ocr POST endpoint. You will get back a job response that contains a job with its associated settings.  2. Start the job from a PUT request to the /ocr/{jobid} endpoint, with the Job and Settings JSON as request body. The ocr extraction will now start.  3. Check the job status from the /ocr/{jobid} GET endpoint until the status has changed to DONE or ERROR. Messaging using a websocket will be available as an alternative in a future version  4. Retrieve the OCR result using the /ocr/{jobid}/result GET endpoint. This will return the OCR result only when the status is DONE. In other cases it will return the Job Response JSON (with http code 202 instead of 200)      <b>Interactive testing: </b>A web based test console is available in the <a href=\"https://store.sphereon.com\">Sphereon API Store</a>
  *
  * OpenAPI spec version: 1.0.0
  * Contact: dev@sphereon.com
@@ -103,28 +103,28 @@ namespace Sphereon.SDK.Ocr.Api
         /// Get the current ocr result
         /// </summary>
         /// <remarks>
-        /// Get the OCR result  Our API generation does not allow changing the media type based on the Accepted header unfortunately.&lt;br/&gt;This means we use a seperate path postfix with the value &#39;/result&#39;.  This API only returns the OCR when the response status code is 200! In other cases nothing is returned or the Job JSON when it is still being executed
+        /// Get the OCR result  This API only returns the OCR when the response status code is 200! In other cases nothing is returned or the Job JSON when it is still being executed
         /// </remarks>
         /// <exception cref="Sphereon.SDK.Ocr.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="jobid">jobid</param>
         /// <returns>OCRResultResponse</returns>
-        OCRResultResponse GetOcrResult (string jobid);
+        OCRResultResponse GetResult (string jobid);
 
         /// <summary>
         /// Get the current ocr result
         /// </summary>
         /// <remarks>
-        /// Get the OCR result  Our API generation does not allow changing the media type based on the Accepted header unfortunately.&lt;br/&gt;This means we use a seperate path postfix with the value &#39;/result&#39;.  This API only returns the OCR when the response status code is 200! In other cases nothing is returned or the Job JSON when it is still being executed
+        /// Get the OCR result  This API only returns the OCR when the response status code is 200! In other cases nothing is returned or the Job JSON when it is still being executed
         /// </remarks>
         /// <exception cref="Sphereon.SDK.Ocr.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="jobid">jobid</param>
         /// <returns>ApiResponse of OCRResultResponse</returns>
-        ApiResponse<OCRResultResponse> GetOcrResultWithHttpInfo (string jobid);
+        ApiResponse<OCRResultResponse> GetResultWithHttpInfo (string jobid);
         /// <summary>
         /// Submit OCR job for processing
         /// </summary>
         /// <remarks>
-        /// Convert the previously uploaded file(s) to OCR, using the supplied settings associated with the job in the request body. You can only submit the job after a new Job is created with status INPUTS_UPLOADED or resubmit an existing Job with status ERROR. In all cases the job Id in the path must match the jobId in the request
+        /// Apply OCR on the previously uploaded file(s), using the supplied settings associated with the job in the request body. You can only submit the job after a new Job is created with status INPUTS_UPLOADED or resubmit an existing Job with status ERROR. In all cases the job Id in the path must match the jobId in the request
         /// </remarks>
         /// <exception cref="Sphereon.SDK.Ocr.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="jobid">jobid</param>
@@ -136,7 +136,7 @@ namespace Sphereon.SDK.Ocr.Api
         /// Submit OCR job for processing
         /// </summary>
         /// <remarks>
-        /// Convert the previously uploaded file(s) to OCR, using the supplied settings associated with the job in the request body. You can only submit the job after a new Job is created with status INPUTS_UPLOADED or resubmit an existing Job with status ERROR. In all cases the job Id in the path must match the jobId in the request
+        /// Apply OCR on the previously uploaded file(s), using the supplied settings associated with the job in the request body. You can only submit the job after a new Job is created with status INPUTS_UPLOADED or resubmit an existing Job with status ERROR. In all cases the job Id in the path must match the jobId in the request
         /// </remarks>
         /// <exception cref="Sphereon.SDK.Ocr.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="jobid">jobid</param>
@@ -147,7 +147,7 @@ namespace Sphereon.SDK.Ocr.Api
         /// Upload first file
         /// </summary>
         /// <remarks>
-        /// Upload the first image, office or ocr file.
+        /// Upload the first image file.
         /// </remarks>
         /// <exception cref="Sphereon.SDK.Ocr.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="stream">The image file to convert to OCR</param>
@@ -158,7 +158,7 @@ namespace Sphereon.SDK.Ocr.Api
         /// Upload first file
         /// </summary>
         /// <remarks>
-        /// Upload the first image, office or ocr file.
+        /// Upload the first image file.
         /// </remarks>
         /// <exception cref="Sphereon.SDK.Ocr.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="stream">The image file to convert to OCR</param>
@@ -233,28 +233,28 @@ namespace Sphereon.SDK.Ocr.Api
         /// Get the current ocr result
         /// </summary>
         /// <remarks>
-        /// Get the OCR result  Our API generation does not allow changing the media type based on the Accepted header unfortunately.&lt;br/&gt;This means we use a seperate path postfix with the value &#39;/result&#39;.  This API only returns the OCR when the response status code is 200! In other cases nothing is returned or the Job JSON when it is still being executed
+        /// Get the OCR result  This API only returns the OCR when the response status code is 200! In other cases nothing is returned or the Job JSON when it is still being executed
         /// </remarks>
         /// <exception cref="Sphereon.SDK.Ocr.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="jobid">jobid</param>
         /// <returns>Task of OCRResultResponse</returns>
-        System.Threading.Tasks.Task<OCRResultResponse> GetOcrResultAsync (string jobid);
+        System.Threading.Tasks.Task<OCRResultResponse> GetResultAsync (string jobid);
 
         /// <summary>
         /// Get the current ocr result
         /// </summary>
         /// <remarks>
-        /// Get the OCR result  Our API generation does not allow changing the media type based on the Accepted header unfortunately.&lt;br/&gt;This means we use a seperate path postfix with the value &#39;/result&#39;.  This API only returns the OCR when the response status code is 200! In other cases nothing is returned or the Job JSON when it is still being executed
+        /// Get the OCR result  This API only returns the OCR when the response status code is 200! In other cases nothing is returned or the Job JSON when it is still being executed
         /// </remarks>
         /// <exception cref="Sphereon.SDK.Ocr.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="jobid">jobid</param>
         /// <returns>Task of ApiResponse (OCRResultResponse)</returns>
-        System.Threading.Tasks.Task<ApiResponse<OCRResultResponse>> GetOcrResultAsyncWithHttpInfo (string jobid);
+        System.Threading.Tasks.Task<ApiResponse<OCRResultResponse>> GetResultAsyncWithHttpInfo (string jobid);
         /// <summary>
         /// Submit OCR job for processing
         /// </summary>
         /// <remarks>
-        /// Convert the previously uploaded file(s) to OCR, using the supplied settings associated with the job in the request body. You can only submit the job after a new Job is created with status INPUTS_UPLOADED or resubmit an existing Job with status ERROR. In all cases the job Id in the path must match the jobId in the request
+        /// Apply OCR on the previously uploaded file(s), using the supplied settings associated with the job in the request body. You can only submit the job after a new Job is created with status INPUTS_UPLOADED or resubmit an existing Job with status ERROR. In all cases the job Id in the path must match the jobId in the request
         /// </remarks>
         /// <exception cref="Sphereon.SDK.Ocr.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="jobid">jobid</param>
@@ -266,7 +266,7 @@ namespace Sphereon.SDK.Ocr.Api
         /// Submit OCR job for processing
         /// </summary>
         /// <remarks>
-        /// Convert the previously uploaded file(s) to OCR, using the supplied settings associated with the job in the request body. You can only submit the job after a new Job is created with status INPUTS_UPLOADED or resubmit an existing Job with status ERROR. In all cases the job Id in the path must match the jobId in the request
+        /// Apply OCR on the previously uploaded file(s), using the supplied settings associated with the job in the request body. You can only submit the job after a new Job is created with status INPUTS_UPLOADED or resubmit an existing Job with status ERROR. In all cases the job Id in the path must match the jobId in the request
         /// </remarks>
         /// <exception cref="Sphereon.SDK.Ocr.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="jobid">jobid</param>
@@ -277,7 +277,7 @@ namespace Sphereon.SDK.Ocr.Api
         /// Upload first file
         /// </summary>
         /// <remarks>
-        /// Upload the first image, office or ocr file.
+        /// Upload the first image file.
         /// </remarks>
         /// <exception cref="Sphereon.SDK.Ocr.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="stream">The image file to convert to OCR</param>
@@ -288,7 +288,7 @@ namespace Sphereon.SDK.Ocr.Api
         /// Upload first file
         /// </summary>
         /// <remarks>
-        /// Upload the first image, office or ocr file.
+        /// Upload the first image file.
         /// </remarks>
         /// <exception cref="Sphereon.SDK.Ocr.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="stream">The image file to convert to OCR</param>
@@ -866,28 +866,28 @@ namespace Sphereon.SDK.Ocr.Api
         }
 
         /// <summary>
-        /// Get the current ocr result Get the OCR result  Our API generation does not allow changing the media type based on the Accepted header unfortunately.&lt;br/&gt;This means we use a seperate path postfix with the value &#39;/result&#39;.  This API only returns the OCR when the response status code is 200! In other cases nothing is returned or the Job JSON when it is still being executed
+        /// Get the current ocr result Get the OCR result  This API only returns the OCR when the response status code is 200! In other cases nothing is returned or the Job JSON when it is still being executed
         /// </summary>
         /// <exception cref="Sphereon.SDK.Ocr.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="jobid">jobid</param>
         /// <returns>OCRResultResponse</returns>
-        public OCRResultResponse GetOcrResult (string jobid)
+        public OCRResultResponse GetResult (string jobid)
         {
-             ApiResponse<OCRResultResponse> localVarResponse = GetOcrResultWithHttpInfo(jobid);
+             ApiResponse<OCRResultResponse> localVarResponse = GetResultWithHttpInfo(jobid);
              return localVarResponse.Data;
         }
 
         /// <summary>
-        /// Get the current ocr result Get the OCR result  Our API generation does not allow changing the media type based on the Accepted header unfortunately.&lt;br/&gt;This means we use a seperate path postfix with the value &#39;/result&#39;.  This API only returns the OCR when the response status code is 200! In other cases nothing is returned or the Job JSON when it is still being executed
+        /// Get the current ocr result Get the OCR result  This API only returns the OCR when the response status code is 200! In other cases nothing is returned or the Job JSON when it is still being executed
         /// </summary>
         /// <exception cref="Sphereon.SDK.Ocr.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="jobid">jobid</param>
         /// <returns>ApiResponse of OCRResultResponse</returns>
-        public ApiResponse< OCRResultResponse > GetOcrResultWithHttpInfo (string jobid)
+        public ApiResponse< OCRResultResponse > GetResultWithHttpInfo (string jobid)
         {
             // verify the required parameter 'jobid' is set
             if (jobid == null)
-                throw new ApiException(400, "Missing required parameter 'jobid' when calling OcrApi->GetOcrResult");
+                throw new ApiException(400, "Missing required parameter 'jobid' when calling OcrApi->GetResult");
 
             var localVarPath = "/ocr/1.0.0/ocr/{jobid}/result";
             var localVarPathParams = new Dictionary<String, String>();
@@ -932,7 +932,7 @@ namespace Sphereon.SDK.Ocr.Api
 
             if (ExceptionFactory != null)
             {
-                Exception exception = ExceptionFactory("GetOcrResult", localVarResponse);
+                Exception exception = ExceptionFactory("GetResult", localVarResponse);
                 if (exception != null) throw exception;
             }
 
@@ -943,29 +943,29 @@ namespace Sphereon.SDK.Ocr.Api
         }
 
         /// <summary>
-        /// Get the current ocr result Get the OCR result  Our API generation does not allow changing the media type based on the Accepted header unfortunately.&lt;br/&gt;This means we use a seperate path postfix with the value &#39;/result&#39;.  This API only returns the OCR when the response status code is 200! In other cases nothing is returned or the Job JSON when it is still being executed
+        /// Get the current ocr result Get the OCR result  This API only returns the OCR when the response status code is 200! In other cases nothing is returned or the Job JSON when it is still being executed
         /// </summary>
         /// <exception cref="Sphereon.SDK.Ocr.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="jobid">jobid</param>
         /// <returns>Task of OCRResultResponse</returns>
-        public async System.Threading.Tasks.Task<OCRResultResponse> GetOcrResultAsync (string jobid)
+        public async System.Threading.Tasks.Task<OCRResultResponse> GetResultAsync (string jobid)
         {
-             ApiResponse<OCRResultResponse> localVarResponse = await GetOcrResultAsyncWithHttpInfo(jobid);
+             ApiResponse<OCRResultResponse> localVarResponse = await GetResultAsyncWithHttpInfo(jobid);
              return localVarResponse.Data;
 
         }
 
         /// <summary>
-        /// Get the current ocr result Get the OCR result  Our API generation does not allow changing the media type based on the Accepted header unfortunately.&lt;br/&gt;This means we use a seperate path postfix with the value &#39;/result&#39;.  This API only returns the OCR when the response status code is 200! In other cases nothing is returned or the Job JSON when it is still being executed
+        /// Get the current ocr result Get the OCR result  This API only returns the OCR when the response status code is 200! In other cases nothing is returned or the Job JSON when it is still being executed
         /// </summary>
         /// <exception cref="Sphereon.SDK.Ocr.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="jobid">jobid</param>
         /// <returns>Task of ApiResponse (OCRResultResponse)</returns>
-        public async System.Threading.Tasks.Task<ApiResponse<OCRResultResponse>> GetOcrResultAsyncWithHttpInfo (string jobid)
+        public async System.Threading.Tasks.Task<ApiResponse<OCRResultResponse>> GetResultAsyncWithHttpInfo (string jobid)
         {
             // verify the required parameter 'jobid' is set
             if (jobid == null)
-                throw new ApiException(400, "Missing required parameter 'jobid' when calling OcrApi->GetOcrResult");
+                throw new ApiException(400, "Missing required parameter 'jobid' when calling OcrApi->GetResult");
 
             var localVarPath = "/ocr/1.0.0/ocr/{jobid}/result";
             var localVarPathParams = new Dictionary<String, String>();
@@ -1010,7 +1010,7 @@ namespace Sphereon.SDK.Ocr.Api
 
             if (ExceptionFactory != null)
             {
-                Exception exception = ExceptionFactory("GetOcrResult", localVarResponse);
+                Exception exception = ExceptionFactory("GetResult", localVarResponse);
                 if (exception != null) throw exception;
             }
 
@@ -1021,7 +1021,7 @@ namespace Sphereon.SDK.Ocr.Api
         }
 
         /// <summary>
-        /// Submit OCR job for processing Convert the previously uploaded file(s) to OCR, using the supplied settings associated with the job in the request body. You can only submit the job after a new Job is created with status INPUTS_UPLOADED or resubmit an existing Job with status ERROR. In all cases the job Id in the path must match the jobId in the request
+        /// Submit OCR job for processing Apply OCR on the previously uploaded file(s), using the supplied settings associated with the job in the request body. You can only submit the job after a new Job is created with status INPUTS_UPLOADED or resubmit an existing Job with status ERROR. In all cases the job Id in the path must match the jobId in the request
         /// </summary>
         /// <exception cref="Sphereon.SDK.Ocr.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="jobid">jobid</param>
@@ -1034,7 +1034,7 @@ namespace Sphereon.SDK.Ocr.Api
         }
 
         /// <summary>
-        /// Submit OCR job for processing Convert the previously uploaded file(s) to OCR, using the supplied settings associated with the job in the request body. You can only submit the job after a new Job is created with status INPUTS_UPLOADED or resubmit an existing Job with status ERROR. In all cases the job Id in the path must match the jobId in the request
+        /// Submit OCR job for processing Apply OCR on the previously uploaded file(s), using the supplied settings associated with the job in the request body. You can only submit the job after a new Job is created with status INPUTS_UPLOADED or resubmit an existing Job with status ERROR. In all cases the job Id in the path must match the jobId in the request
         /// </summary>
         /// <exception cref="Sphereon.SDK.Ocr.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="jobid">jobid</param>
@@ -1111,7 +1111,7 @@ namespace Sphereon.SDK.Ocr.Api
         }
 
         /// <summary>
-        /// Submit OCR job for processing Convert the previously uploaded file(s) to OCR, using the supplied settings associated with the job in the request body. You can only submit the job after a new Job is created with status INPUTS_UPLOADED or resubmit an existing Job with status ERROR. In all cases the job Id in the path must match the jobId in the request
+        /// Submit OCR job for processing Apply OCR on the previously uploaded file(s), using the supplied settings associated with the job in the request body. You can only submit the job after a new Job is created with status INPUTS_UPLOADED or resubmit an existing Job with status ERROR. In all cases the job Id in the path must match the jobId in the request
         /// </summary>
         /// <exception cref="Sphereon.SDK.Ocr.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="jobid">jobid</param>
@@ -1125,7 +1125,7 @@ namespace Sphereon.SDK.Ocr.Api
         }
 
         /// <summary>
-        /// Submit OCR job for processing Convert the previously uploaded file(s) to OCR, using the supplied settings associated with the job in the request body. You can only submit the job after a new Job is created with status INPUTS_UPLOADED or resubmit an existing Job with status ERROR. In all cases the job Id in the path must match the jobId in the request
+        /// Submit OCR job for processing Apply OCR on the previously uploaded file(s), using the supplied settings associated with the job in the request body. You can only submit the job after a new Job is created with status INPUTS_UPLOADED or resubmit an existing Job with status ERROR. In all cases the job Id in the path must match the jobId in the request
         /// </summary>
         /// <exception cref="Sphereon.SDK.Ocr.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="jobid">jobid</param>
@@ -1202,7 +1202,7 @@ namespace Sphereon.SDK.Ocr.Api
         }
 
         /// <summary>
-        /// Upload first file Upload the first image, office or ocr file.
+        /// Upload first file Upload the first image file.
         /// </summary>
         /// <exception cref="Sphereon.SDK.Ocr.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="stream">The image file to convert to OCR</param>
@@ -1214,7 +1214,7 @@ namespace Sphereon.SDK.Ocr.Api
         }
 
         /// <summary>
-        /// Upload first file Upload the first image, office or ocr file.
+        /// Upload first file Upload the first image file.
         /// </summary>
         /// <exception cref="Sphereon.SDK.Ocr.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="stream">The image file to convert to OCR</param>
@@ -1279,7 +1279,7 @@ namespace Sphereon.SDK.Ocr.Api
         }
 
         /// <summary>
-        /// Upload first file Upload the first image, office or ocr file.
+        /// Upload first file Upload the first image file.
         /// </summary>
         /// <exception cref="Sphereon.SDK.Ocr.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="stream">The image file to convert to OCR</param>
@@ -1292,7 +1292,7 @@ namespace Sphereon.SDK.Ocr.Api
         }
 
         /// <summary>
-        /// Upload first file Upload the first image, office or ocr file.
+        /// Upload first file Upload the first image file.
         /// </summary>
         /// <exception cref="Sphereon.SDK.Ocr.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="stream">The image file to convert to OCR</param>

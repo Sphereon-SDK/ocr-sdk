@@ -1,7 +1,7 @@
 /* 
- * OCR 
+ * OCR
  *
- * <b>The OCR API 'ocr' extracts ocr from input files.</b>    The flow is generally as follows:  1. First upload an image/file using the /ocr POST endpoint. You will get back a job response that contains a job with its associated settings.  2. Start the job from a PUT request to the /ocr/{jobid} endpoint, with the Job and Settings JSON as request body. The ocr extraction will now start.  3. Check the job status from the /ocr/{jobid} GET endpoint until the status has changed to DONE or ERROR. Messaging using a websocket will be available as an alternative in a future version  4. Retrieve the OCR result using the /ocr/{jobid}/result GET endpoint. This will return the OCR result only when the status is DONE. In other cases it will return the Job Response JSON (with http code 202 instead of 200)      <b>Interactive testing: </b>A web based test console is available in the <a href=\"https://store.sphereon.com\">Sphereon API Store</a>
+ * <b>The OCR API 'ocr' performs Optical Character Resolution on input files.</b>    The flow is generally as follows:  1. First upload an image/file using the /ocr POST endpoint. You will get back a job response that contains a job with its associated settings.  2. Start the job from a PUT request to the /ocr/{jobid} endpoint, with the Job and Settings JSON as request body. The ocr extraction will now start.  3. Check the job status from the /ocr/{jobid} GET endpoint until the status has changed to DONE or ERROR. Messaging using a websocket will be available as an alternative in a future version  4. Retrieve the OCR result using the /ocr/{jobid}/result GET endpoint. This will return the OCR result only when the status is DONE. In other cases it will return the Job Response JSON (with http code 202 instead of 200)      <b>Interactive testing: </b>A web based test console is available in the <a href=\"https://store.sphereon.com\">Sphereon API Store</a>
  *
  * OpenAPI spec version: 1.0.0
  * Contact: dev@sphereon.com
@@ -40,6 +40,39 @@ namespace Sphereon.SDK.Ocr.Model
     public partial class Pass :  IEquatable<Pass>
     {
         /// <summary>
+        /// OCR engine used in this pass
+        /// </summary>
+        /// <value>OCR engine used in this pass</value>
+        [JsonConverter(typeof(StringEnumConverter))]
+        public enum EngineEnum
+        {
+            
+            /// <summary>
+            /// Enum ADVANCED for "ADVANCED"
+            /// </summary>
+            [EnumMember(Value = "ADVANCED")]
+            ADVANCED,
+            
+            /// <summary>
+            /// Enum PREMIUM for "PREMIUM"
+            /// </summary>
+            [EnumMember(Value = "PREMIUM")]
+            PREMIUM,
+            
+            /// <summary>
+            /// Enum BASIC for "BASIC"
+            /// </summary>
+            [EnumMember(Value = "BASIC")]
+            BASIC
+        }
+
+        /// <summary>
+        /// OCR engine used in this pass
+        /// </summary>
+        /// <value>OCR engine used in this pass</value>
+        [DataMember(Name="engine", EmitDefaultValue=false)]
+        public EngineEnum? Engine { get; set; }
+        /// <summary>
         /// Initializes a new instance of the <see cref="Pass" /> class.
         /// </summary>
         [JsonConstructorAttribute]
@@ -47,11 +80,21 @@ namespace Sphereon.SDK.Ocr.Model
         /// <summary>
         /// Initializes a new instance of the <see cref="Pass" /> class.
         /// </summary>
+        /// <param name="Engine">OCR engine used in this pass (required).</param>
         /// <param name="_Pass">pass number (required).</param>
         /// <param name="Words">words found by OCR engine (required).</param>
         /// <param name="Lines">lines found by OCR engine (required).</param>
-        public Pass(int? _Pass = null, List<Word> Words = null, List<Line> Lines = null)
+        public Pass(EngineEnum? Engine = null, int? _Pass = null, List<Word> Words = null, List<Line> Lines = null)
         {
+            // to ensure "Engine" is required (not null)
+            if (Engine == null)
+            {
+                throw new InvalidDataException("Engine is a required property for Pass and cannot be null");
+            }
+            else
+            {
+                this.Engine = Engine;
+            }
             // to ensure "_Pass" is required (not null)
             if (_Pass == null)
             {
@@ -107,6 +150,7 @@ namespace Sphereon.SDK.Ocr.Model
         {
             var sb = new StringBuilder();
             sb.Append("class Pass {\n");
+            sb.Append("  Engine: ").Append(Engine).Append("\n");
             sb.Append("  _Pass: ").Append(_Pass).Append("\n");
             sb.Append("  Words: ").Append(Words).Append("\n");
             sb.Append("  Lines: ").Append(Lines).Append("\n");
@@ -147,6 +191,11 @@ namespace Sphereon.SDK.Ocr.Model
 
             return 
                 (
+                    this.Engine == other.Engine ||
+                    this.Engine != null &&
+                    this.Engine.Equals(other.Engine)
+                ) && 
+                (
                     this._Pass == other._Pass ||
                     this._Pass != null &&
                     this._Pass.Equals(other._Pass)
@@ -174,6 +223,8 @@ namespace Sphereon.SDK.Ocr.Model
             {
                 int hash = 41;
                 // Suitable nullity checks etc, of course :)
+                if (this.Engine != null)
+                    hash = hash * 59 + this.Engine.GetHashCode();
                 if (this._Pass != null)
                     hash = hash * 59 + this._Pass.GetHashCode();
                 if (this.Words != null)

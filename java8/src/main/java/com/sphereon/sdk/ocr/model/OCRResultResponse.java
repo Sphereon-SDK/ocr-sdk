@@ -1,6 +1,6 @@
 /**
- * OCR 
- * <b>The OCR API 'ocr' extracts ocr from input files.</b>    The flow is generally as follows:  1. First upload an image/file using the /ocr POST endpoint. You will get back a job response that contains a job with its associated settings.  2. Start the job from a PUT request to the /ocr/{jobid} endpoint, with the Job and Settings JSON as request body. The ocr extraction will now start.  3. Check the job status from the /ocr/{jobid} GET endpoint until the status has changed to DONE or ERROR. Messaging using a websocket will be available as an alternative in a future version  4. Retrieve the OCR result using the /ocr/{jobid}/result GET endpoint. This will return the OCR result only when the status is DONE. In other cases it will return the Job Response JSON (with http code 202 instead of 200)      <b>Interactive testing: </b>A web based test console is available in the <a href=\"https://store.sphereon.com\">Sphereon API Store</a>
+ * OCR
+ * <b>The OCR API 'ocr' performs Optical Character Resolution on input files.</b>    The flow is generally as follows:  1. First upload an image/file using the /ocr POST endpoint. You will get back a job response that contains a job with its associated settings.  2. Start the job from a PUT request to the /ocr/{jobid} endpoint, with the Job and Settings JSON as request body. The ocr extraction will now start.  3. Check the job status from the /ocr/{jobid} GET endpoint until the status has changed to DONE or ERROR. Messaging using a websocket will be available as an alternative in a future version  4. Retrieve the OCR result using the /ocr/{jobid}/result GET endpoint. This will return the OCR result only when the status is DONE. In other cases it will return the Job Response JSON (with http code 202 instead of 200)      <b>Interactive testing: </b>A web based test console is available in the <a href=\"https://store.sphereon.com\">Sphereon API Store</a>
  *
  * OpenAPI spec version: 1.0.0
  * Contact: dev@sphereon.com
@@ -29,7 +29,7 @@ import java.util.Objects;
 import com.google.gson.annotations.SerializedName;
 import com.sphereon.sdk.ocr.model.OCRJob;
 import com.sphereon.sdk.ocr.model.OCRResult;
-import com.sphereon.sdk.ocr.model.OcrTask;
+import com.sphereon.sdk.ocr.model.OCRTask;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import java.time.OffsetDateTime;
@@ -41,22 +41,19 @@ import java.util.List;
  * The OCR result
  */
 @ApiModel(description = "The OCR result")
-@javax.annotation.Generated(value = "class io.swagger.codegen.languages.JavaClientCodegen", date = "2017-03-21T15:21:53.416+01:00")
+@javax.annotation.Generated(value = "class io.swagger.codegen.languages.JavaClientCodegen", date = "2017-03-22T10:09:02.404+01:00")
 public class OCRResultResponse   {
+  @SerializedName("result")
+  private OCRResult result = null;
+
   @SerializedName("completionTime")
   private OffsetDateTime completionTime = null;
 
   @SerializedName("jobId")
   private String jobId = null;
 
-  @SerializedName("ocrResult")
-  private OCRResult ocrResult = null;
-
   @SerializedName("creationTime")
   private OffsetDateTime creationTime = null;
-
-  @SerializedName("ocrtasks")
-  private List<OcrTask> ocrtasks = new ArrayList<OcrTask>();
 
   @SerializedName("inputs")
   private List<String> inputs = new ArrayList<String>();
@@ -69,6 +66,9 @@ public class OCRResultResponse   {
 
   @SerializedName("statusMessage")
   private String statusMessage = null;
+
+  @SerializedName("tasks")
+  private List<OCRTask> tasks = new ArrayList<OCRTask>();
 
   @SerializedName("queueTime")
   private OffsetDateTime queueTime = null;
@@ -107,6 +107,24 @@ public class OCRResultResponse   {
   @SerializedName("status")
   private StatusEnum status = null;
 
+  public OCRResultResponse result(OCRResult result) {
+    this.result = result;
+    return this;
+  }
+
+   /**
+   * Get result
+   * @return result
+  **/
+  @ApiModelProperty(example = "null", value = "")
+  public OCRResult getResult() {
+    return result;
+  }
+
+  public void setResult(OCRResult result) {
+    this.result = result;
+  }
+
    /**
    * The completion date/time of this job in ISO 8601 format
    * @return completionTime
@@ -134,24 +152,6 @@ public class OCRResultResponse   {
     this.jobId = jobId;
   }
 
-  public OCRResultResponse ocrResult(OCRResult ocrResult) {
-    this.ocrResult = ocrResult;
-    return this;
-  }
-
-   /**
-   * Get ocrResult
-   * @return ocrResult
-  **/
-  @ApiModelProperty(example = "null", value = "")
-  public OCRResult getOcrResult() {
-    return ocrResult;
-  }
-
-  public void setOcrResult(OCRResult ocrResult) {
-    this.ocrResult = ocrResult;
-  }
-
    /**
    * The creation date/time of this job in ISO 8601 format
    * @return creationTime
@@ -159,29 +159,6 @@ public class OCRResultResponse   {
   @ApiModelProperty(example = "null", value = "The creation date/time of this job in ISO 8601 format")
   public OffsetDateTime getCreationTime() {
     return creationTime;
-  }
-
-  public OCRResultResponse ocrtasks(List<OcrTask> ocrtasks) {
-    this.ocrtasks = ocrtasks;
-    return this;
-  }
-
-  public OCRResultResponse addOcrtasksItem(OcrTask ocrtasksItem) {
-    this.ocrtasks.add(ocrtasksItem);
-    return this;
-  }
-
-   /**
-   * Get ocrtasks
-   * @return ocrtasks
-  **/
-  @ApiModelProperty(example = "null", value = "")
-  public List<OcrTask> getOcrtasks() {
-    return ocrtasks;
-  }
-
-  public void setOcrtasks(List<OcrTask> ocrtasks) {
-    this.ocrtasks = ocrtasks;
   }
 
   public OCRResultResponse inputs(List<String> inputs) {
@@ -243,6 +220,29 @@ public class OCRResultResponse   {
     return statusMessage;
   }
 
+  public OCRResultResponse tasks(List<OCRTask> tasks) {
+    this.tasks = tasks;
+    return this;
+  }
+
+  public OCRResultResponse addTasksItem(OCRTask tasksItem) {
+    this.tasks.add(tasksItem);
+    return this;
+  }
+
+   /**
+   * The server supplied OCR task(s)
+   * @return tasks
+  **/
+  @ApiModelProperty(example = "null", value = "The server supplied OCR task(s)")
+  public List<OCRTask> getTasks() {
+    return tasks;
+  }
+
+  public void setTasks(List<OCRTask> tasks) {
+    this.tasks = tasks;
+  }
+
    /**
    * The conversion queue date/time of this job in ISO 8601 format
    * @return queueTime
@@ -271,22 +271,22 @@ public class OCRResultResponse   {
       return false;
     }
     OCRResultResponse oCRResultResponse = (OCRResultResponse) o;
-    return Objects.equals(this.completionTime, oCRResultResponse.completionTime) &&
+    return Objects.equals(this.result, oCRResultResponse.result) &&
+        Objects.equals(this.completionTime, oCRResultResponse.completionTime) &&
         Objects.equals(this.jobId, oCRResultResponse.jobId) &&
-        Objects.equals(this.ocrResult, oCRResultResponse.ocrResult) &&
         Objects.equals(this.creationTime, oCRResultResponse.creationTime) &&
-        Objects.equals(this.ocrtasks, oCRResultResponse.ocrtasks) &&
         Objects.equals(this.inputs, oCRResultResponse.inputs) &&
         Objects.equals(this.updateTime, oCRResultResponse.updateTime) &&
         Objects.equals(this.job, oCRResultResponse.job) &&
         Objects.equals(this.statusMessage, oCRResultResponse.statusMessage) &&
+        Objects.equals(this.tasks, oCRResultResponse.tasks) &&
         Objects.equals(this.queueTime, oCRResultResponse.queueTime) &&
         Objects.equals(this.status, oCRResultResponse.status);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(completionTime, jobId, ocrResult, creationTime, ocrtasks, inputs, updateTime, job, statusMessage, queueTime, status);
+    return Objects.hash(result, completionTime, jobId, creationTime, inputs, updateTime, job, statusMessage, tasks, queueTime, status);
   }
 
   @Override
@@ -294,15 +294,15 @@ public class OCRResultResponse   {
     StringBuilder sb = new StringBuilder();
     sb.append("class OCRResultResponse {\n");
     
+    sb.append("    result: ").append(toIndentedString(result)).append("\n");
     sb.append("    completionTime: ").append(toIndentedString(completionTime)).append("\n");
     sb.append("    jobId: ").append(toIndentedString(jobId)).append("\n");
-    sb.append("    ocrResult: ").append(toIndentedString(ocrResult)).append("\n");
     sb.append("    creationTime: ").append(toIndentedString(creationTime)).append("\n");
-    sb.append("    ocrtasks: ").append(toIndentedString(ocrtasks)).append("\n");
     sb.append("    inputs: ").append(toIndentedString(inputs)).append("\n");
     sb.append("    updateTime: ").append(toIndentedString(updateTime)).append("\n");
     sb.append("    job: ").append(toIndentedString(job)).append("\n");
     sb.append("    statusMessage: ").append(toIndentedString(statusMessage)).append("\n");
+    sb.append("    tasks: ").append(toIndentedString(tasks)).append("\n");
     sb.append("    queueTime: ").append(toIndentedString(queueTime)).append("\n");
     sb.append("    status: ").append(toIndentedString(status)).append("\n");
     sb.append("}");

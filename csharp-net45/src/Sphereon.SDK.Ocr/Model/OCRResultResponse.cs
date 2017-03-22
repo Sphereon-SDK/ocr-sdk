@@ -1,7 +1,7 @@
 /* 
- * OCR 
+ * OCR
  *
- * <b>The OCR API 'ocr' extracts ocr from input files.</b>    The flow is generally as follows:  1. First upload an image/file using the /ocr POST endpoint. You will get back a job response that contains a job with its associated settings.  2. Start the job from a PUT request to the /ocr/{jobid} endpoint, with the Job and Settings JSON as request body. The ocr extraction will now start.  3. Check the job status from the /ocr/{jobid} GET endpoint until the status has changed to DONE or ERROR. Messaging using a websocket will be available as an alternative in a future version  4. Retrieve the OCR result using the /ocr/{jobid}/result GET endpoint. This will return the OCR result only when the status is DONE. In other cases it will return the Job Response JSON (with http code 202 instead of 200)      <b>Interactive testing: </b>A web based test console is available in the <a href=\"https://store.sphereon.com\">Sphereon API Store</a>
+ * <b>The OCR API 'ocr' performs Optical Character Resolution on input files.</b>    The flow is generally as follows:  1. First upload an image/file using the /ocr POST endpoint. You will get back a job response that contains a job with its associated settings.  2. Start the job from a PUT request to the /ocr/{jobid} endpoint, with the Job and Settings JSON as request body. The ocr extraction will now start.  3. Check the job status from the /ocr/{jobid} GET endpoint until the status has changed to DONE or ERROR. Messaging using a websocket will be available as an alternative in a future version  4. Retrieve the OCR result using the /ocr/{jobid}/result GET endpoint. This will return the OCR result only when the status is DONE. In other cases it will return the Job Response JSON (with http code 202 instead of 200)      <b>Interactive testing: </b>A web based test console is available in the <a href=\"https://store.sphereon.com\">Sphereon API Store</a>
  *
  * OpenAPI spec version: 1.0.0
  * Contact: dev@sphereon.com
@@ -92,12 +92,12 @@ namespace Sphereon.SDK.Ocr.Model
         /// <summary>
         /// Initializes a new instance of the <see cref="OCRResultResponse" /> class.
         /// </summary>
+        /// <param name="Result">Result.</param>
         /// <param name="JobId">JobId.</param>
-        /// <param name="OcrResult">OcrResult.</param>
-        /// <param name="Ocrtasks">Ocrtasks.</param>
         /// <param name="Inputs">The original input files. Currently supported inputs are: tiffs (required).</param>
         /// <param name="Job">Job.</param>
-        public OCRResultResponse(string JobId = null, OCRResult OcrResult = null, List<OcrTask> Ocrtasks = null, List<string> Inputs = null, OCRJob Job = null)
+        /// <param name="Tasks">The server supplied OCR task(s).</param>
+        public OCRResultResponse(OCRResult Result = null, string JobId = null, List<string> Inputs = null, OCRJob Job = null, List<OCRTask> Tasks = null)
         {
             // to ensure "Inputs" is required (not null)
             if (Inputs == null)
@@ -108,12 +108,17 @@ namespace Sphereon.SDK.Ocr.Model
             {
                 this.Inputs = Inputs;
             }
+            this.Result = Result;
             this.JobId = JobId;
-            this.OcrResult = OcrResult;
-            this.Ocrtasks = Ocrtasks;
             this.Job = Job;
+            this.Tasks = Tasks;
         }
         
+        /// <summary>
+        /// Gets or Sets Result
+        /// </summary>
+        [DataMember(Name="result", EmitDefaultValue=false)]
+        public OCRResult Result { get; set; }
         /// <summary>
         /// The completion date/time of this job in ISO 8601 format
         /// </summary>
@@ -126,21 +131,11 @@ namespace Sphereon.SDK.Ocr.Model
         [DataMember(Name="jobId", EmitDefaultValue=false)]
         public string JobId { get; set; }
         /// <summary>
-        /// Gets or Sets OcrResult
-        /// </summary>
-        [DataMember(Name="ocrResult", EmitDefaultValue=false)]
-        public OCRResult OcrResult { get; set; }
-        /// <summary>
         /// The creation date/time of this job in ISO 8601 format
         /// </summary>
         /// <value>The creation date/time of this job in ISO 8601 format</value>
         [DataMember(Name="creationTime", EmitDefaultValue=false)]
         public DateTime? CreationTime { get; private set; }
-        /// <summary>
-        /// Gets or Sets Ocrtasks
-        /// </summary>
-        [DataMember(Name="ocrtasks", EmitDefaultValue=false)]
-        public List<OcrTask> Ocrtasks { get; set; }
         /// <summary>
         /// The original input files. Currently supported inputs are: tiffs
         /// </summary>
@@ -165,6 +160,12 @@ namespace Sphereon.SDK.Ocr.Model
         [DataMember(Name="statusMessage", EmitDefaultValue=false)]
         public string StatusMessage { get; private set; }
         /// <summary>
+        /// The server supplied OCR task(s)
+        /// </summary>
+        /// <value>The server supplied OCR task(s)</value>
+        [DataMember(Name="tasks", EmitDefaultValue=false)]
+        public List<OCRTask> Tasks { get; set; }
+        /// <summary>
         /// The conversion queue date/time of this job in ISO 8601 format
         /// </summary>
         /// <value>The conversion queue date/time of this job in ISO 8601 format</value>
@@ -178,15 +179,15 @@ namespace Sphereon.SDK.Ocr.Model
         {
             var sb = new StringBuilder();
             sb.Append("class OCRResultResponse {\n");
+            sb.Append("  Result: ").Append(Result).Append("\n");
             sb.Append("  CompletionTime: ").Append(CompletionTime).Append("\n");
             sb.Append("  JobId: ").Append(JobId).Append("\n");
-            sb.Append("  OcrResult: ").Append(OcrResult).Append("\n");
             sb.Append("  CreationTime: ").Append(CreationTime).Append("\n");
-            sb.Append("  Ocrtasks: ").Append(Ocrtasks).Append("\n");
             sb.Append("  Inputs: ").Append(Inputs).Append("\n");
             sb.Append("  UpdateTime: ").Append(UpdateTime).Append("\n");
             sb.Append("  Job: ").Append(Job).Append("\n");
             sb.Append("  StatusMessage: ").Append(StatusMessage).Append("\n");
+            sb.Append("  Tasks: ").Append(Tasks).Append("\n");
             sb.Append("  QueueTime: ").Append(QueueTime).Append("\n");
             sb.Append("  Status: ").Append(Status).Append("\n");
             sb.Append("}\n");
@@ -226,6 +227,11 @@ namespace Sphereon.SDK.Ocr.Model
 
             return 
                 (
+                    this.Result == other.Result ||
+                    this.Result != null &&
+                    this.Result.Equals(other.Result)
+                ) && 
+                (
                     this.CompletionTime == other.CompletionTime ||
                     this.CompletionTime != null &&
                     this.CompletionTime.Equals(other.CompletionTime)
@@ -236,19 +242,9 @@ namespace Sphereon.SDK.Ocr.Model
                     this.JobId.Equals(other.JobId)
                 ) && 
                 (
-                    this.OcrResult == other.OcrResult ||
-                    this.OcrResult != null &&
-                    this.OcrResult.Equals(other.OcrResult)
-                ) && 
-                (
                     this.CreationTime == other.CreationTime ||
                     this.CreationTime != null &&
                     this.CreationTime.Equals(other.CreationTime)
-                ) && 
-                (
-                    this.Ocrtasks == other.Ocrtasks ||
-                    this.Ocrtasks != null &&
-                    this.Ocrtasks.SequenceEqual(other.Ocrtasks)
                 ) && 
                 (
                     this.Inputs == other.Inputs ||
@@ -269,6 +265,11 @@ namespace Sphereon.SDK.Ocr.Model
                     this.StatusMessage == other.StatusMessage ||
                     this.StatusMessage != null &&
                     this.StatusMessage.Equals(other.StatusMessage)
+                ) && 
+                (
+                    this.Tasks == other.Tasks ||
+                    this.Tasks != null &&
+                    this.Tasks.SequenceEqual(other.Tasks)
                 ) && 
                 (
                     this.QueueTime == other.QueueTime ||
@@ -293,16 +294,14 @@ namespace Sphereon.SDK.Ocr.Model
             {
                 int hash = 41;
                 // Suitable nullity checks etc, of course :)
+                if (this.Result != null)
+                    hash = hash * 59 + this.Result.GetHashCode();
                 if (this.CompletionTime != null)
                     hash = hash * 59 + this.CompletionTime.GetHashCode();
                 if (this.JobId != null)
                     hash = hash * 59 + this.JobId.GetHashCode();
-                if (this.OcrResult != null)
-                    hash = hash * 59 + this.OcrResult.GetHashCode();
                 if (this.CreationTime != null)
                     hash = hash * 59 + this.CreationTime.GetHashCode();
-                if (this.Ocrtasks != null)
-                    hash = hash * 59 + this.Ocrtasks.GetHashCode();
                 if (this.Inputs != null)
                     hash = hash * 59 + this.Inputs.GetHashCode();
                 if (this.UpdateTime != null)
@@ -311,6 +310,8 @@ namespace Sphereon.SDK.Ocr.Model
                     hash = hash * 59 + this.Job.GetHashCode();
                 if (this.StatusMessage != null)
                     hash = hash * 59 + this.StatusMessage.GetHashCode();
+                if (this.Tasks != null)
+                    hash = hash * 59 + this.Tasks.GetHashCode();
                 if (this.QueueTime != null)
                     hash = hash * 59 + this.QueueTime.GetHashCode();
                 if (this.Status != null)

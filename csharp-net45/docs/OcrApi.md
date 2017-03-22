@@ -7,7 +7,7 @@ Method | HTTP request | Description
 [**DeleteJob**](OcrApi.md#deletejob) | **DELETE** /ocr/1.0.0/ocr/{jobid} | Delete a job manually
 [**GetJob**](OcrApi.md#getjob) | **GET** /ocr/1.0.0/ocr/{jobid} | Job definition and state
 [**GetJobs**](OcrApi.md#getjobs) | **GET** /ocr/1.0.0/ocr | Get all jobs
-[**GetOcrResult**](OcrApi.md#getocrresult) | **GET** /ocr/1.0.0/ocr/{jobid}/result | Get the current ocr result
+[**GetResult**](OcrApi.md#getresult) | **GET** /ocr/1.0.0/ocr/{jobid}/result | Get the current ocr result
 [**SubmitJob**](OcrApi.md#submitjob) | **PUT** /ocr/1.0.0/ocr/{jobid} | Submit OCR job for processing
 [**UploadFile**](OcrApi.md#uploadfile) | **POST** /ocr/1.0.0/ocr | Upload first file
 
@@ -207,13 +207,13 @@ Name | Type | Description  | Notes
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
-<a name="getocrresult"></a>
-# **GetOcrResult**
-> OCRResultResponse GetOcrResult (string jobid)
+<a name="getresult"></a>
+# **GetResult**
+> OCRResultResponse GetResult (string jobid)
 
 Get the current ocr result
 
-Get the OCR result  Our API generation does not allow changing the media type based on the Accepted header unfortunately.<br/>This means we use a seperate path postfix with the value '/result'.  This API only returns the OCR when the response status code is 200! In other cases nothing is returned or the Job JSON when it is still being executed
+Get the OCR result  This API only returns the OCR when the response status code is 200! In other cases nothing is returned or the Job JSON when it is still being executed
 
 ### Example
 ```csharp
@@ -225,7 +225,7 @@ using Sphereon.SDK.Ocr.Model;
 
 namespace Example
 {
-    public class GetOcrResultExample
+    public class GetResultExample
     {
         public void main()
         {
@@ -239,12 +239,12 @@ namespace Example
             try
             {
                 // Get the current ocr result
-                OCRResultResponse result = apiInstance.GetOcrResult(jobid);
+                OCRResultResponse result = apiInstance.GetResult(jobid);
                 Debug.WriteLine(result);
             }
             catch (Exception e)
             {
-                Debug.Print("Exception when calling OcrApi.GetOcrResult: " + e.Message );
+                Debug.Print("Exception when calling OcrApi.GetResult: " + e.Message );
             }
         }
     }
@@ -278,7 +278,7 @@ Name | Type | Description  | Notes
 
 Submit OCR job for processing
 
-Convert the previously uploaded file(s) to OCR, using the supplied settings associated with the job in the request body. You can only submit the job after a new Job is created with status INPUTS_UPLOADED or resubmit an existing Job with status ERROR. In all cases the job Id in the path must match the jobId in the request
+Apply OCR on the previously uploaded file(s), using the supplied settings associated with the job in the request body. You can only submit the job after a new Job is created with status INPUTS_UPLOADED or resubmit an existing Job with status ERROR. In all cases the job Id in the path must match the jobId in the request
 
 ### Example
 ```csharp
@@ -345,7 +345,7 @@ Name | Type | Description  | Notes
 
 Upload first file
 
-Upload the first image, office or ocr file.
+Upload the first image file.
 
 ### Example
 ```csharp

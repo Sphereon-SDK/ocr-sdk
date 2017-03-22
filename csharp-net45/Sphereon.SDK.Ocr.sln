@@ -2,7 +2,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2012
 VisualStudioVersion = 12.0.0.0
 MinimumVisualStudioVersion = 10.0.0.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sphereon.SDK.Ocr", "src\Sphereon.SDK.Ocr\Sphereon.SDK.Ocr.csproj", "{0672E59F-636A-42CD-890C-8AA7D65ABEDE}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sphereon.SDK.Ocr", "src\Sphereon.SDK.Ocr\Sphereon.SDK.Ocr.csproj", "{CBD85B22-E594-4677-BE3F-5C3FCA3198ED}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sphereon.SDK.Ocr.Test", "src\Sphereon.SDK.Ocr.Test\Sphereon.SDK.Ocr.Test.csproj", "{19F1DEBC-DE5E-4517-8062-F000CD499087}"
 EndProject
@@ -12,10 +12,10 @@ Debug|Any CPU = Debug|Any CPU
 Release|Any CPU = Release|Any CPU
 EndGlobalSection
 GlobalSection(ProjectConfigurationPlatforms) = postSolution
-{0672E59F-636A-42CD-890C-8AA7D65ABEDE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-{0672E59F-636A-42CD-890C-8AA7D65ABEDE}.Debug|Any CPU.Build.0 = Debug|Any CPU
-{0672E59F-636A-42CD-890C-8AA7D65ABEDE}.Release|Any CPU.ActiveCfg = Release|Any CPU
-{0672E59F-636A-42CD-890C-8AA7D65ABEDE}.Release|Any CPU.Build.0 = Release|Any CPU
+{CBD85B22-E594-4677-BE3F-5C3FCA3198ED}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+{CBD85B22-E594-4677-BE3F-5C3FCA3198ED}.Debug|Any CPU.Build.0 = Debug|Any CPU
+{CBD85B22-E594-4677-BE3F-5C3FCA3198ED}.Release|Any CPU.ActiveCfg = Release|Any CPU
+{CBD85B22-E594-4677-BE3F-5C3FCA3198ED}.Release|Any CPU.Build.0 = Release|Any CPU
 {19F1DEBC-DE5E-4517-8062-F000CD499087}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 {19F1DEBC-DE5E-4517-8062-F000CD499087}.Debug|Any CPU.Build.0 = Debug|Any CPU
 {19F1DEBC-DE5E-4517-8062-F000CD499087}.Release|Any CPU.ActiveCfg = Release|Any CPU

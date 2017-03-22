@@ -1,6 +1,6 @@
 /**
- * OCR 
- * <b>The OCR API 'ocr' extracts ocr from input files.</b>    The flow is generally as follows:  1. First upload an image/file using the /ocr POST endpoint. You will get back a job response that contains a job with its associated settings.  2. Start the job from a PUT request to the /ocr/{jobid} endpoint, with the Job and Settings JSON as request body. The ocr extraction will now start.  3. Check the job status from the /ocr/{jobid} GET endpoint until the status has changed to DONE or ERROR. Messaging using a websocket will be available as an alternative in a future version  4. Retrieve the OCR result using the /ocr/{jobid}/result GET endpoint. This will return the OCR result only when the status is DONE. In other cases it will return the Job Response JSON (with http code 202 instead of 200)      <b>Interactive testing: </b>A web based test console is available in the <a href=\"https://store.sphereon.com\">Sphereon API Store</a>
+ * OCR
+ * <b>The OCR API 'ocr' performs Optical Character Resolution on input files.</b>    The flow is generally as follows:  1. First upload an image/file using the /ocr POST endpoint. You will get back a job response that contains a job with its associated settings.  2. Start the job from a PUT request to the /ocr/{jobid} endpoint, with the Job and Settings JSON as request body. The ocr extraction will now start.  3. Check the job status from the /ocr/{jobid} GET endpoint until the status has changed to DONE or ERROR. Messaging using a websocket will be available as an alternative in a future version  4. Retrieve the OCR result using the /ocr/{jobid}/result GET endpoint. This will return the OCR result only when the status is DONE. In other cases it will return the Job Response JSON (with http code 202 instead of 200)      <b>Interactive testing: </b>A web based test console is available in the <a href=\"https://store.sphereon.com\">Sphereon API Store</a>
  *
  * OpenAPI spec version: 1.0.0
  * Contact: dev@sphereon.com
@@ -34,10 +34,11 @@ import java.util.List;
 
 
 /**
- * OcrTask
+ * OCR Task
  */
-@javax.annotation.Generated(value = "class io.swagger.codegen.languages.JavaClientCodegen", date = "2017-03-21T15:21:53.416+01:00")
-public class OcrTask   {
+@ApiModel(description = "OCR Task")
+@javax.annotation.Generated(value = "class io.swagger.codegen.languages.JavaClientCodegen", date = "2017-03-22T10:09:02.404+01:00")
+public class OCRTask   {
   @SerializedName("jobId")
   private String jobId = null;
 
@@ -142,12 +143,12 @@ public class OcrTask   {
     return engine;
   }
 
-  public OcrTask inputs(List<String> inputs) {
+  public OCRTask inputs(List<String> inputs) {
     this.inputs = inputs;
     return this;
   }
 
-  public OcrTask addInputsItem(String inputsItem) {
+  public OCRTask addInputsItem(String inputsItem) {
     this.inputs.add(inputsItem);
     return this;
   }
@@ -201,14 +202,14 @@ public class OcrTask   {
     if (o == null || getClass() != o.getClass()) {
       return false;
     }
-    OcrTask ocrTask = (OcrTask) o;
-    return Objects.equals(this.jobId, ocrTask.jobId) &&
-        Objects.equals(this.queueId, ocrTask.queueId) &&
-        Objects.equals(this.engine, ocrTask.engine) &&
-        Objects.equals(this.inputs, ocrTask.inputs) &&
-        Objects.equals(this.documentId, ocrTask.documentId) &&
-        Objects.equals(this.url, ocrTask.url) &&
-        Objects.equals(this.status, ocrTask.status);
+    OCRTask oCRTask = (OCRTask) o;
+    return Objects.equals(this.jobId, oCRTask.jobId) &&
+        Objects.equals(this.queueId, oCRTask.queueId) &&
+        Objects.equals(this.engine, oCRTask.engine) &&
+        Objects.equals(this.inputs, oCRTask.inputs) &&
+        Objects.equals(this.documentId, oCRTask.documentId) &&
+        Objects.equals(this.url, oCRTask.url) &&
+        Objects.equals(this.status, oCRTask.status);
   }
 
   @Override
@@ -219,7 +220,7 @@ public class OcrTask   {
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
-    sb.append("class OcrTask {\n");
+    sb.append("class OCRTask {\n");
     
     sb.append("    jobId: ").append(toIndentedString(jobId)).append("\n");
     sb.append("    queueId: ").append(toIndentedString(queueId)).append("\n");

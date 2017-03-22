@@ -7,7 +7,7 @@ Method | HTTP request | Description
 [**deleteJob**](OcrApi.md#deleteJob) | **DELETE** /ocr/1.0.0/ocr/{jobid} | Delete a job manually
 [**getJob**](OcrApi.md#getJob) | **GET** /ocr/1.0.0/ocr/{jobid} | Job definition and state
 [**getJobs**](OcrApi.md#getJobs) | **GET** /ocr/1.0.0/ocr | Get all jobs
-[**getOcrResult**](OcrApi.md#getOcrResult) | **GET** /ocr/1.0.0/ocr/{jobid}/result | Get the current ocr result
+[**getResult**](OcrApi.md#getResult) | **GET** /ocr/1.0.0/ocr/{jobid}/result | Get the current ocr result
 [**submitJob**](OcrApi.md#submitJob) | **PUT** /ocr/1.0.0/ocr/{jobid} | Submit OCR job for processing
 [**uploadFile**](OcrApi.md#uploadFile) | **POST** /ocr/1.0.0/ocr | Upload first file
 
@@ -171,13 +171,13 @@ Name | Type | Description  | Notes
  - **Content-Type**: application/json
  - **Accept**: application/json;charset=UTF-8
 
-<a name="getOcrResult"></a>
-# **getOcrResult**
-> OCRResultResponse getOcrResult(jobid)
+<a name="getResult"></a>
+# **getResult**
+> OCRResultResponse getResult(jobid)
 
 Get the current ocr result
 
-Get the OCR result  Our API generation does not allow changing the media type based on the Accepted header unfortunately.&lt;br/&gt;This means we use a seperate path postfix with the value &#39;/result&#39;.  This API only returns the OCR when the response status code is 200! In other cases nothing is returned or the Job JSON when it is still being executed
+Get the OCR result  This API only returns the OCR when the response status code is 200! In other cases nothing is returned or the Job JSON when it is still being executed
 
 ### Example
 ```java
@@ -197,10 +197,10 @@ oauth2schema.setAccessToken("YOUR ACCESS TOKEN");
 OcrApi apiInstance = new OcrApi();
 String jobid = "jobid_example"; // String | jobid
 try {
-    OCRResultResponse result = apiInstance.getOcrResult(jobid);
+    OCRResultResponse result = apiInstance.getResult(jobid);
     System.out.println(result);
 } catch (ApiException e) {
-    System.err.println("Exception when calling OcrApi#getOcrResult");
+    System.err.println("Exception when calling OcrApi#getResult");
     e.printStackTrace();
 }
 ```
@@ -230,7 +230,7 @@ Name | Type | Description  | Notes
 
 Submit OCR job for processing
 
-Convert the previously uploaded file(s) to OCR, using the supplied settings associated with the job in the request body. You can only submit the job after a new Job is created with status INPUTS_UPLOADED or resubmit an existing Job with status ERROR. In all cases the job Id in the path must match the jobId in the request
+Apply OCR on the previously uploaded file(s), using the supplied settings associated with the job in the request body. You can only submit the job after a new Job is created with status INPUTS_UPLOADED or resubmit an existing Job with status ERROR. In all cases the job Id in the path must match the jobId in the request
 
 ### Example
 ```java
@@ -285,7 +285,7 @@ Name | Type | Description  | Notes
 
 Upload first file
 
-Upload the first image, office or ocr file.
+Upload the first image file.
 
 ### Example
 ```java

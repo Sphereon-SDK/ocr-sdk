@@ -1,6 +1,6 @@
 /**
- * OCR 
- * <b>The OCR API 'ocr' extracts ocr from input files.</b>    The flow is generally as follows:  1. First upload an image/file using the /ocr POST endpoint. You will get back a job response that contains a job with its associated settings.  2. Start the job from a PUT request to the /ocr/{jobid} endpoint, with the Job and Settings JSON as request body. The ocr extraction will now start.  3. Check the job status from the /ocr/{jobid} GET endpoint until the status has changed to DONE or ERROR. Messaging using a websocket will be available as an alternative in a future version  4. Retrieve the OCR result using the /ocr/{jobid}/result GET endpoint. This will return the OCR result only when the status is DONE. In other cases it will return the Job Response JSON (with http code 202 instead of 200)      <b>Interactive testing: </b>A web based test console is available in the <a href=\"https://store.sphereon.com\">Sphereon API Store</a>
+ * OCR
+ * <b>The OCR API 'ocr' performs Optical Character Resolution on input files.</b>    The flow is generally as follows:  1. First upload an image/file using the /ocr POST endpoint. You will get back a job response that contains a job with its associated settings.  2. Start the job from a PUT request to the /ocr/{jobid} endpoint, with the Job and Settings JSON as request body. The ocr extraction will now start.  3. Check the job status from the /ocr/{jobid} GET endpoint until the status has changed to DONE or ERROR. Messaging using a websocket will be available as an alternative in a future version  4. Retrieve the OCR result using the /ocr/{jobid}/result GET endpoint. This will return the OCR result only when the status is DONE. In other cases it will return the Job Response JSON (with http code 202 instead of 200)      <b>Interactive testing: </b>A web based test console is available in the <a href=\"https://store.sphereon.com\">Sphereon API Store</a>
  *
  * OpenAPI spec version: 1.0.0
  * Contact: dev@sphereon.com
@@ -28,7 +28,7 @@ package com.sphereon.sdk.ocr.model;
 import java.util.Objects;
 import com.google.gson.annotations.SerializedName;
 import com.sphereon.sdk.ocr.model.OCRJob;
-import com.sphereon.sdk.ocr.model.OcrTask;
+import com.sphereon.sdk.ocr.model.OCRTask;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import java.time.OffsetDateTime;
@@ -40,7 +40,7 @@ import java.util.List;
  * The OCR job. Has access to the job settings as well as ocr engine tasks
  */
 @ApiModel(description = "The OCR job. Has access to the job settings as well as ocr engine tasks")
-@javax.annotation.Generated(value = "class io.swagger.codegen.languages.JavaClientCodegen", date = "2017-03-21T15:21:53.416+01:00")
+@javax.annotation.Generated(value = "class io.swagger.codegen.languages.JavaClientCodegen", date = "2017-03-22T10:09:02.404+01:00")
 public class OCRJobResponse   {
   @SerializedName("completionTime")
   private OffsetDateTime completionTime = null;
@@ -50,9 +50,6 @@ public class OCRJobResponse   {
 
   @SerializedName("creationTime")
   private OffsetDateTime creationTime = null;
-
-  @SerializedName("ocrtasks")
-  private List<OcrTask> ocrtasks = new ArrayList<OcrTask>();
 
   @SerializedName("inputs")
   private List<String> inputs = new ArrayList<String>();
@@ -65,6 +62,9 @@ public class OCRJobResponse   {
 
   @SerializedName("statusMessage")
   private String statusMessage = null;
+
+  @SerializedName("tasks")
+  private List<OCRTask> tasks = new ArrayList<OCRTask>();
 
   @SerializedName("queueTime")
   private OffsetDateTime queueTime = null;
@@ -139,29 +139,6 @@ public class OCRJobResponse   {
     return creationTime;
   }
 
-  public OCRJobResponse ocrtasks(List<OcrTask> ocrtasks) {
-    this.ocrtasks = ocrtasks;
-    return this;
-  }
-
-  public OCRJobResponse addOcrtasksItem(OcrTask ocrtasksItem) {
-    this.ocrtasks.add(ocrtasksItem);
-    return this;
-  }
-
-   /**
-   * Get ocrtasks
-   * @return ocrtasks
-  **/
-  @ApiModelProperty(example = "null", value = "")
-  public List<OcrTask> getOcrtasks() {
-    return ocrtasks;
-  }
-
-  public void setOcrtasks(List<OcrTask> ocrtasks) {
-    this.ocrtasks = ocrtasks;
-  }
-
   public OCRJobResponse inputs(List<String> inputs) {
     this.inputs = inputs;
     return this;
@@ -221,6 +198,29 @@ public class OCRJobResponse   {
     return statusMessage;
   }
 
+  public OCRJobResponse tasks(List<OCRTask> tasks) {
+    this.tasks = tasks;
+    return this;
+  }
+
+  public OCRJobResponse addTasksItem(OCRTask tasksItem) {
+    this.tasks.add(tasksItem);
+    return this;
+  }
+
+   /**
+   * The server supplied OCR task(s)
+   * @return tasks
+  **/
+  @ApiModelProperty(example = "null", value = "The server supplied OCR task(s)")
+  public List<OCRTask> getTasks() {
+    return tasks;
+  }
+
+  public void setTasks(List<OCRTask> tasks) {
+    this.tasks = tasks;
+  }
+
    /**
    * The conversion queue date/time of this job in ISO 8601 format
    * @return queueTime
@@ -252,18 +252,18 @@ public class OCRJobResponse   {
     return Objects.equals(this.completionTime, oCRJobResponse.completionTime) &&
         Objects.equals(this.jobId, oCRJobResponse.jobId) &&
         Objects.equals(this.creationTime, oCRJobResponse.creationTime) &&
-        Objects.equals(this.ocrtasks, oCRJobResponse.ocrtasks) &&
         Objects.equals(this.inputs, oCRJobResponse.inputs) &&
         Objects.equals(this.updateTime, oCRJobResponse.updateTime) &&
         Objects.equals(this.job, oCRJobResponse.job) &&
         Objects.equals(this.statusMessage, oCRJobResponse.statusMessage) &&
+        Objects.equals(this.tasks, oCRJobResponse.tasks) &&
         Objects.equals(this.queueTime, oCRJobResponse.queueTime) &&
         Objects.equals(this.status, oCRJobResponse.status);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(completionTime, jobId, creationTime, ocrtasks, inputs, updateTime, job, statusMessage, queueTime, status);
+    return Objects.hash(completionTime, jobId, creationTime, inputs, updateTime, job, statusMessage, tasks, queueTime, status);
   }
 
   @Override
@@ -274,11 +274,11 @@ public class OCRJobResponse   {
     sb.append("    completionTime: ").append(toIndentedString(completionTime)).append("\n");
     sb.append("    jobId: ").append(toIndentedString(jobId)).append("\n");
     sb.append("    creationTime: ").append(toIndentedString(creationTime)).append("\n");
-    sb.append("    ocrtasks: ").append(toIndentedString(ocrtasks)).append("\n");
     sb.append("    inputs: ").append(toIndentedString(inputs)).append("\n");
     sb.append("    updateTime: ").append(toIndentedString(updateTime)).append("\n");
     sb.append("    job: ").append(toIndentedString(job)).append("\n");
     sb.append("    statusMessage: ").append(toIndentedString(statusMessage)).append("\n");
+    sb.append("    tasks: ").append(toIndentedString(tasks)).append("\n");
     sb.append("    queueTime: ").append(toIndentedString(queueTime)).append("\n");
     sb.append("    status: ").append(toIndentedString(status)).append("\n");
     sb.append("}");

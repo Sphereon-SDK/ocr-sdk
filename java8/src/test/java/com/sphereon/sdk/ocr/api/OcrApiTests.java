@@ -50,6 +50,7 @@ public class OcrApiTests {
 
     /**
      * Temporarily use local microservice
+     * FIXME remove before deployment
      */
     @Before
     public void setToLocalMicroservice(){
@@ -121,7 +122,7 @@ public class OcrApiTests {
             response = api.getJob(ocrJob.getJobId());
         }
         while (count < 100 && response.getStatus() != OCRJobResponse.StatusEnum.DONE && response.getStatus() != OCRJobResponse.StatusEnum.ERROR);
-        OCRResultResponse ocrResult = api.getOcrResult(ocrJob.getJobId());
+        OCRResultResponse ocrResult = api.getResult(ocrJob.getJobId());
         Assert.assertNotNull(ocrResult);
         // We could write the output to file of course
         // Files.write(new File("/tmp/out.pdf").toPath(), pdfOutput);
