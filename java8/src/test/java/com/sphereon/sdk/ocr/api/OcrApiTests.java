@@ -27,6 +27,7 @@ package com.sphereon.sdk.ocr.api;
 import com.sphereon.sdk.ocr.handler.ApiException;
 import com.sphereon.sdk.ocr.model.*;
 import org.junit.Assert;
+import org.junit.Before;
 import org.junit.FixMethodOrder;
 import org.junit.Test;
 import org.junit.runners.MethodSorters;
@@ -45,6 +46,17 @@ public class OcrApiTests {
     private static final String IMAGE_NAME = "CCITT_1.TIF";
     private static final URL IMAGE_URL = OcrApiTests.class.getResource( IMAGE_NAME);
     private static final String ACCESS_TOKEN = "0dbd17f1-c108-350e-807e-42d13e543b32";
+
+
+    /**
+     * Temporarily use local microservice
+     */
+    @Before
+    public void setToLocalMicroservice(){
+        api.getApiClient().setBasePath(getServiceUrl());
+    }
+
+
     /**
      * Upload (first) file
      * <p>
@@ -128,4 +140,10 @@ public class OcrApiTests {
         Assert.assertNotNull(response.getJob());
         Assert.assertEquals(OCRJobResponse.StatusEnum.DELETED, response.getStatus());
     }
+
+
+    private String getServiceUrl() {
+        return "http://localhost:18078";
+    }
+
 }
