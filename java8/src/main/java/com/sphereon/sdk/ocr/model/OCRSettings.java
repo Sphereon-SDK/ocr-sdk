@@ -28,6 +28,7 @@ package com.sphereon.sdk.ocr.model;
 import java.util.Objects;
 import com.google.gson.annotations.SerializedName;
 import com.sphereon.sdk.ocr.model.Lifecycle;
+import com.sphereon.sdk.ocr.model.RegionSettings;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 
@@ -36,7 +37,7 @@ import io.swagger.annotations.ApiModelProperty;
  * OCR settings
  */
 @ApiModel(description = "OCR settings")
-@javax.annotation.Generated(value = "class io.swagger.codegen.languages.JavaClientCodegen", date = "2017-03-22T10:09:02.404+01:00")
+@javax.annotation.Generated(value = "class io.swagger.codegen.languages.JavaClientCodegen", date = "2017-03-30T16:03:53.449+02:00")
 public class OCRSettings   {
   @SerializedName("lifecycle")
   private Lifecycle lifecycle = null;
@@ -68,6 +69,9 @@ public class OCRSettings   {
 
   @SerializedName("engine")
   private EngineEnum engine = null;
+
+  @SerializedName("regionSettings")
+  private RegionSettings regionSettings = null;
 
   public OCRSettings lifecycle(Lifecycle lifecycle) {
     this.lifecycle = lifecycle;
@@ -105,6 +109,24 @@ public class OCRSettings   {
     this.engine = engine;
   }
 
+  public OCRSettings regionSettings(RegionSettings regionSettings) {
+    this.regionSettings = regionSettings;
+    return this;
+  }
+
+   /**
+   * Get regionSettings
+   * @return regionSettings
+  **/
+  @ApiModelProperty(example = "null", value = "")
+  public RegionSettings getRegionSettings() {
+    return regionSettings;
+  }
+
+  public void setRegionSettings(RegionSettings regionSettings) {
+    this.regionSettings = regionSettings;
+  }
+
 
   @Override
   public boolean equals(java.lang.Object o) {
@@ -116,12 +138,13 @@ public class OCRSettings   {
     }
     OCRSettings oCRSettings = (OCRSettings) o;
     return Objects.equals(this.lifecycle, oCRSettings.lifecycle) &&
-        Objects.equals(this.engine, oCRSettings.engine);
+        Objects.equals(this.engine, oCRSettings.engine) &&
+        Objects.equals(this.regionSettings, oCRSettings.regionSettings);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(lifecycle, engine);
+    return Objects.hash(lifecycle, engine, regionSettings);
   }
 
   @Override
@@ -131,6 +154,7 @@ public class OCRSettings   {
     
     sb.append("    lifecycle: ").append(toIndentedString(lifecycle)).append("\n");
     sb.append("    engine: ").append(toIndentedString(engine)).append("\n");
+    sb.append("    regionSettings: ").append(toIndentedString(regionSettings)).append("\n");
     sb.append("}");
     return sb.toString();
   }

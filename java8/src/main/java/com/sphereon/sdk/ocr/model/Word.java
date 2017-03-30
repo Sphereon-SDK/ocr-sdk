@@ -27,7 +27,7 @@ package com.sphereon.sdk.ocr.model;
 
 import java.util.Objects;
 import com.google.gson.annotations.SerializedName;
-import com.sphereon.sdk.ocr.model.Item;
+import com.sphereon.sdk.ocr.model.Region;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 
@@ -36,27 +36,132 @@ import io.swagger.annotations.ApiModelProperty;
  * word
  */
 @ApiModel(description = "word")
-@javax.annotation.Generated(value = "class io.swagger.codegen.languages.JavaClientCodegen", date = "2017-03-22T10:09:02.404+01:00")
+@javax.annotation.Generated(value = "class io.swagger.codegen.languages.JavaClientCodegen", date = "2017-03-30T16:03:53.449+02:00")
 public class Word   {
-  @SerializedName("item")
-  private Item item = null;
+  @SerializedName("top")
+  private Integer top = null;
 
-  public Word item(Item item) {
-    this.item = item;
+  @SerializedName("left")
+  private Integer left = null;
+
+  @SerializedName("bottom")
+  private Integer bottom = null;
+
+  @SerializedName("right")
+  private Integer right = null;
+
+  @SerializedName("text")
+  private String text = null;
+
+  @SerializedName("region")
+  private Region region = null;
+
+  public Word top(Integer top) {
+    this.top = top;
     return this;
   }
 
    /**
-   * Get item
-   * @return item
+   * Simple location. See RegionSettings for more advanced location/region responses
+   * @return top
   **/
-  @ApiModelProperty(example = "null", required = true, value = "")
-  public Item getItem() {
-    return item;
+  @ApiModelProperty(example = "null", value = "Simple location. See RegionSettings for more advanced location/region responses")
+  public Integer getTop() {
+    return top;
   }
 
-  public void setItem(Item item) {
-    this.item = item;
+  public void setTop(Integer top) {
+    this.top = top;
+  }
+
+  public Word left(Integer left) {
+    this.left = left;
+    return this;
+  }
+
+   /**
+   * Simple location. See RegionSettings for more advanced location/region responses
+   * @return left
+  **/
+  @ApiModelProperty(example = "null", value = "Simple location. See RegionSettings for more advanced location/region responses")
+  public Integer getLeft() {
+    return left;
+  }
+
+  public void setLeft(Integer left) {
+    this.left = left;
+  }
+
+  public Word bottom(Integer bottom) {
+    this.bottom = bottom;
+    return this;
+  }
+
+   /**
+   * Simple location. See RegionSettings for more advanced location/region responses
+   * @return bottom
+  **/
+  @ApiModelProperty(example = "null", value = "Simple location. See RegionSettings for more advanced location/region responses")
+  public Integer getBottom() {
+    return bottom;
+  }
+
+  public void setBottom(Integer bottom) {
+    this.bottom = bottom;
+  }
+
+  public Word right(Integer right) {
+    this.right = right;
+    return this;
+  }
+
+   /**
+   * Simple location. See RegionSettings for more advanced location/region responses
+   * @return right
+  **/
+  @ApiModelProperty(example = "null", value = "Simple location. See RegionSettings for more advanced location/region responses")
+  public Integer getRight() {
+    return right;
+  }
+
+  public void setRight(Integer right) {
+    this.right = right;
+  }
+
+  public Word text(String text) {
+    this.text = text;
+    return this;
+  }
+
+   /**
+   * the text found by the OCR engine
+   * @return text
+  **/
+  @ApiModelProperty(example = "null", required = true, value = "the text found by the OCR engine")
+  public String getText() {
+    return text;
+  }
+
+  public void setText(String text) {
+    this.text = text;
+  }
+
+  public Word region(Region region) {
+    this.region = region;
+    return this;
+  }
+
+   /**
+   * Get region
+   * @return region
+  **/
+  @ApiModelProperty(example = "null", required = true, value = "")
+  public Region getRegion() {
+    return region;
+  }
+
+  public void setRegion(Region region) {
+    this.region = region;
   }
 
 
@@ -69,12 +174,17 @@ public class Word   {
       return false;
     }
     Word word = (Word) o;
-    return Objects.equals(this.item, word.item);
+    return Objects.equals(this.top, word.top) &&
+        Objects.equals(this.left, word.left) &&
+        Objects.equals(this.bottom, word.bottom) &&
+        Objects.equals(this.right, word.right) &&
+        Objects.equals(this.text, word.text) &&
+        Objects.equals(this.region, word.region);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(item);
+    return Objects.hash(top, left, bottom, right, text, region);
   }
 
   @Override
@@ -82,7 +192,12 @@ public class Word   {
     StringBuilder sb = new StringBuilder();
     sb.append("class Word {\n");
     
-    sb.append("    item: ").append(toIndentedString(item)).append("\n");
+    sb.append("    top: ").append(toIndentedString(top)).append("\n");
+    sb.append("    left: ").append(toIndentedString(left)).append("\n");
+    sb.append("    bottom: ").append(toIndentedString(bottom)).append("\n");
+    sb.append("    right: ").append(toIndentedString(right)).append("\n");
+    sb.append("    text: ").append(toIndentedString(text)).append("\n");
+    sb.append("    region: ").append(toIndentedString(region)).append("\n");
     sb.append("}");
     return sb.toString();
   }

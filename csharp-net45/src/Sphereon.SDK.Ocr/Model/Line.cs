@@ -47,25 +47,73 @@ namespace Sphereon.SDK.Ocr.Model
         /// <summary>
         /// Initializes a new instance of the <see cref="Line" /> class.
         /// </summary>
-        /// <param name="Item">Item (required).</param>
-        public Line(Item Item = null)
+        /// <param name="Top">Simple location. See RegionSettings for more advanced location/region responses.</param>
+        /// <param name="Left">Simple location. See RegionSettings for more advanced location/region responses.</param>
+        /// <param name="Bottom">Simple location. See RegionSettings for more advanced location/region responses.</param>
+        /// <param name="Right">Simple location. See RegionSettings for more advanced location/region responses.</param>
+        /// <param name="Text">the text found by the OCR engine (required).</param>
+        /// <param name="Region">Region (required).</param>
+        public Line(int? Top = null, int? Left = null, int? Bottom = null, int? Right = null, string Text = null, Region Region = null)
         {
-            // to ensure "Item" is required (not null)
-            if (Item == null)
+            // to ensure "Text" is required (not null)
+            if (Text == null)
             {
-                throw new InvalidDataException("Item is a required property for Line and cannot be null");
+                throw new InvalidDataException("Text is a required property for Line and cannot be null");
             }
             else
             {
-                this.Item = Item;
+                this.Text = Text;
             }
+            // to ensure "Region" is required (not null)
+            if (Region == null)
+            {
+                throw new InvalidDataException("Region is a required property for Line and cannot be null");
+            }
+            else
+            {
+                this.Region = Region;
+            }
+            this.Top = Top;
+            this.Left = Left;
+            this.Bottom = Bottom;
+            this.Right = Right;
         }
         
         /// <summary>
-        /// Gets or Sets Item
+        /// Simple location. See RegionSettings for more advanced location/region responses
         /// </summary>
-        [DataMember(Name="item", EmitDefaultValue=false)]
-        public Item Item { get; set; }
+        /// <value>Simple location. See RegionSettings for more advanced location/region responses</value>
+        [DataMember(Name="top", EmitDefaultValue=false)]
+        public int? Top { get; set; }
+        /// <summary>
+        /// Simple location. See RegionSettings for more advanced location/region responses
+        /// </summary>
+        /// <value>Simple location. See RegionSettings for more advanced location/region responses</value>
+        [DataMember(Name="left", EmitDefaultValue=false)]
+        public int? Left { get; set; }
+        /// <summary>
+        /// Simple location. See RegionSettings for more advanced location/region responses
+        /// </summary>
+        /// <value>Simple location. See RegionSettings for more advanced location/region responses</value>
+        [DataMember(Name="bottom", EmitDefaultValue=false)]
+        public int? Bottom { get; set; }
+        /// <summary>
+        /// Simple location. See RegionSettings for more advanced location/region responses
+        /// </summary>
+        /// <value>Simple location. See RegionSettings for more advanced location/region responses</value>
+        [DataMember(Name="right", EmitDefaultValue=false)]
+        public int? Right { get; set; }
+        /// <summary>
+        /// the text found by the OCR engine
+        /// </summary>
+        /// <value>the text found by the OCR engine</value>
+        [DataMember(Name="text", EmitDefaultValue=false)]
+        public string Text { get; set; }
+        /// <summary>
+        /// Gets or Sets Region
+        /// </summary>
+        [DataMember(Name="region", EmitDefaultValue=false)]
+        public Region Region { get; set; }
         /// <summary>
         /// Returns the string presentation of the object
         /// </summary>
@@ -74,7 +122,12 @@ namespace Sphereon.SDK.Ocr.Model
         {
             var sb = new StringBuilder();
             sb.Append("class Line {\n");
-            sb.Append("  Item: ").Append(Item).Append("\n");
+            sb.Append("  Top: ").Append(Top).Append("\n");
+            sb.Append("  Left: ").Append(Left).Append("\n");
+            sb.Append("  Bottom: ").Append(Bottom).Append("\n");
+            sb.Append("  Right: ").Append(Right).Append("\n");
+            sb.Append("  Text: ").Append(Text).Append("\n");
+            sb.Append("  Region: ").Append(Region).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
         }
@@ -112,9 +165,34 @@ namespace Sphereon.SDK.Ocr.Model
 
             return 
                 (
-                    this.Item == other.Item ||
-                    this.Item != null &&
-                    this.Item.Equals(other.Item)
+                    this.Top == other.Top ||
+                    this.Top != null &&
+                    this.Top.Equals(other.Top)
+                ) && 
+                (
+                    this.Left == other.Left ||
+                    this.Left != null &&
+                    this.Left.Equals(other.Left)
+                ) && 
+                (
+                    this.Bottom == other.Bottom ||
+                    this.Bottom != null &&
+                    this.Bottom.Equals(other.Bottom)
+                ) && 
+                (
+                    this.Right == other.Right ||
+                    this.Right != null &&
+                    this.Right.Equals(other.Right)
+                ) && 
+                (
+                    this.Text == other.Text ||
+                    this.Text != null &&
+                    this.Text.Equals(other.Text)
+                ) && 
+                (
+                    this.Region == other.Region ||
+                    this.Region != null &&
+                    this.Region.Equals(other.Region)
                 );
         }
 
@@ -129,8 +207,18 @@ namespace Sphereon.SDK.Ocr.Model
             {
                 int hash = 41;
                 // Suitable nullity checks etc, of course :)
-                if (this.Item != null)
-                    hash = hash * 59 + this.Item.GetHashCode();
+                if (this.Top != null)
+                    hash = hash * 59 + this.Top.GetHashCode();
+                if (this.Left != null)
+                    hash = hash * 59 + this.Left.GetHashCode();
+                if (this.Bottom != null)
+                    hash = hash * 59 + this.Bottom.GetHashCode();
+                if (this.Right != null)
+                    hash = hash * 59 + this.Right.GetHashCode();
+                if (this.Text != null)
+                    hash = hash * 59 + this.Text.GetHashCode();
+                if (this.Region != null)
+                    hash = hash * 59 + this.Region.GetHashCode();
                 return hash;
             }
         }

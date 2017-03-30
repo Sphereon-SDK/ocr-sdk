@@ -36,7 +36,7 @@ import io.swagger.annotations.ApiModelProperty;
  * Anchor
  */
 @ApiModel(description = "Anchor")
-@javax.annotation.Generated(value = "class io.swagger.codegen.languages.JavaClientCodegen", date = "2017-03-22T10:09:02.404+01:00")
+@javax.annotation.Generated(value = "class io.swagger.codegen.languages.JavaClientCodegen", date = "2017-03-30T16:03:53.449+02:00")
 public class Anchor   {
   @SerializedName("percentage")
   private Point percentage = null;
@@ -71,7 +71,7 @@ public class Anchor   {
    * Get point
    * @return point
   **/
-  @ApiModelProperty(example = "null", required = true, value = "")
+  @ApiModelProperty(example = "null", value = "")
   public Point getPoint() {
     return point;
   }

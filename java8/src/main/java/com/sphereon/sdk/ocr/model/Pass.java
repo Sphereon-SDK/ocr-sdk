@@ -39,7 +39,7 @@ import java.util.List;
  * pass
  */
 @ApiModel(description = "pass")
-@javax.annotation.Generated(value = "class io.swagger.codegen.languages.JavaClientCodegen", date = "2017-03-22T10:09:02.404+01:00")
+@javax.annotation.Generated(value = "class io.swagger.codegen.languages.JavaClientCodegen", date = "2017-03-30T16:03:53.449+02:00")
 public class Pass   {
   /**
    * OCR engine used in this pass
@@ -102,10 +102,10 @@ public class Pass   {
   }
 
    /**
-   * pass number
+   * OCR pass number
    * @return pass
   **/
-  @ApiModelProperty(example = "null", required = true, value = "pass number")
+  @ApiModelProperty(example = "null", required = true, value = "OCR pass number")
   public Integer getPass() {
     return pass;
   }
@@ -148,10 +148,10 @@ public class Pass   {
   }
 
    /**
-   * lines found by OCR engine
+   * lines found by OCR engine (when supported by engine)
    * @return lines
   **/
-  @ApiModelProperty(example = "null", required = true, value = "lines found by OCR engine")
+  @ApiModelProperty(example = "null", value = "lines found by OCR engine (when supported by engine)")
   public List<Line> getLines() {
     return lines;
   }

@@ -41,7 +41,7 @@ import java.util.List;
  * The OCR result
  */
 @ApiModel(description = "The OCR result")
-@javax.annotation.Generated(value = "class io.swagger.codegen.languages.JavaClientCodegen", date = "2017-03-22T10:09:02.404+01:00")
+@javax.annotation.Generated(value = "class io.swagger.codegen.languages.JavaClientCodegen", date = "2017-03-30T16:03:53.449+02:00")
 public class OCRResultResponse   {
   @SerializedName("result")
   private OCRResult result = null;

@@ -6,6 +6,7 @@ Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **lifecycle** | [**Lifecycle**](Lifecycle.md) |  |  [optional]
 **engine** | [**EngineEnum**](#EngineEnum) |  |  [optional]
+**regionSettings** | [**RegionSettings**](RegionSettings.md) |  |  [optional]
 
 
 <a name="EngineEnum"></a>

@@ -51,10 +51,6 @@ import java.util.List;
 import java.util.Map;
 
 public class OcrApi {
-    // for local testing
-    // FIXME for deployment, replace this static with the commented version below
-    public static final String REST_PREFIX = "";
-    //    public static final String REST_PREFIX = "/recognition/1.0.0";
     private ApiClient apiClient;
 
     public OcrApi() {
@@ -84,7 +80,7 @@ public class OcrApi {
         
 
         // create path and map variables
-        String localVarPath = (REST_PREFIX + "/ocr/{jobid}").replaceAll("\\{format\\}","json")
+        String localVarPath = "/ocr/1.0.0/ocr/{jobid}".replaceAll("\\{format\\}","json")
         .replaceAll("\\{" + "jobid" + "\\}", apiClient.escapeString(jobid.toString()));
 
         List<Pair> localVarQueryParams = new ArrayList<Pair>();
@@ -191,7 +187,7 @@ public class OcrApi {
         
 
         // create path and map variables
-        String localVarPath = (REST_PREFIX + "/ocr/{jobid}").replaceAll("\\{format\\}","json")
+        String localVarPath = "/ocr/1.0.0/ocr/{jobid}".replaceAll("\\{format\\}","json")
         .replaceAll("\\{" + "jobid" + "\\}", apiClient.escapeString(jobid.toString()));
 
         List<Pair> localVarQueryParams = new ArrayList<Pair>();
@@ -293,7 +289,7 @@ public class OcrApi {
         
 
         // create path and map variables
-        String localVarPath = (REST_PREFIX + "/ocr").replaceAll("\\{format\\}","json");
+        String localVarPath = "/ocr/1.0.0/ocr".replaceAll("\\{format\\}","json");
 
         List<Pair> localVarQueryParams = new ArrayList<Pair>();
         if (status != null)
@@ -401,7 +397,7 @@ public class OcrApi {
         
 
         // create path and map variables
-        String localVarPath = (REST_PREFIX + "/ocr/{jobid}/result").replaceAll("\\{format\\}","json")
+        String localVarPath = "/ocr/1.0.0/ocr/{jobid}/result".replaceAll("\\{format\\}","json")
         .replaceAll("\\{" + "jobid" + "\\}", apiClient.escapeString(jobid.toString()));
 
         List<Pair> localVarQueryParams = new ArrayList<Pair>();
@@ -513,7 +509,7 @@ public class OcrApi {
         
 
         // create path and map variables
-        String localVarPath = (REST_PREFIX + "/ocr/{jobid}").replaceAll("\\{format\\}","json")
+        String localVarPath = "/ocr/1.0.0/ocr/{jobid}".replaceAll("\\{format\\}","json")
         .replaceAll("\\{" + "jobid" + "\\}", apiClient.escapeString(jobid.toString()));
 
         List<Pair> localVarQueryParams = new ArrayList<Pair>();
@@ -623,7 +619,7 @@ public class OcrApi {
         
 
         // create path and map variables
-        String localVarPath = (REST_PREFIX + "/ocr").replaceAll("\\{format\\}","json");
+        String localVarPath = "/ocr/1.0.0/ocr".replaceAll("\\{format\\}","json");
 
         List<Pair> localVarQueryParams = new ArrayList<Pair>();
 

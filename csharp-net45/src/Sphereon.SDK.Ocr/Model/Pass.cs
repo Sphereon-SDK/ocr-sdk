@@ -81,9 +81,9 @@ namespace Sphereon.SDK.Ocr.Model
         /// Initializes a new instance of the <see cref="Pass" /> class.
         /// </summary>
         /// <param name="Engine">OCR engine used in this pass (required).</param>
-        /// <param name="_Pass">pass number (required).</param>
+        /// <param name="_Pass">OCR pass number (required).</param>
         /// <param name="Words">words found by OCR engine (required).</param>
-        /// <param name="Lines">lines found by OCR engine (required).</param>
+        /// <param name="Lines">lines found by OCR engine (when supported by engine).</param>
         public Pass(EngineEnum? Engine = null, int? _Pass = null, List<Word> Words = null, List<Line> Lines = null)
         {
             // to ensure "Engine" is required (not null)
@@ -113,21 +113,13 @@ namespace Sphereon.SDK.Ocr.Model
             {
                 this.Words = Words;
             }
-            // to ensure "Lines" is required (not null)
-            if (Lines == null)
-            {
-                throw new InvalidDataException("Lines is a required property for Pass and cannot be null");
-            }
-            else
-            {
-                this.Lines = Lines;
-            }
+            this.Lines = Lines;
         }
         
         /// <summary>
-        /// pass number
+        /// OCR pass number
         /// </summary>
-        /// <value>pass number</value>
+        /// <value>OCR pass number</value>
         [DataMember(Name="pass", EmitDefaultValue=false)]
         public int? _Pass { get; set; }
         /// <summary>
@@ -137,9 +129,9 @@ namespace Sphereon.SDK.Ocr.Model
         [DataMember(Name="words", EmitDefaultValue=false)]
         public List<Word> Words { get; set; }
         /// <summary>
-        /// lines found by OCR engine
+        /// lines found by OCR engine (when supported by engine)
         /// </summary>
-        /// <value>lines found by OCR engine</value>
+        /// <value>lines found by OCR engine (when supported by engine)</value>
         [DataMember(Name="lines", EmitDefaultValue=false)]
         public List<Line> Lines { get; set; }
         /// <summary>

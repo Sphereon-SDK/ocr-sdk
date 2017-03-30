@@ -147,6 +147,61 @@
                 </plugins>
             </build>
         </profile>
+        <profile>
+            <id>javascript</id>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
+            <build>
+                <plugins>
+                    <!-- activate the plugin -->
+                    <plugin>
+                        <groupId>io.swagger</groupId>
+                        <artifactId>swagger-codegen-maven-plugin</artifactId>
+                        <version>2.2.1</version>
+
+                        <executions>
+
+                            <execution>
+                                <goals>
+                                    <goal>generate</goal>
+                                </goals>
+                                <configuration>
+                                    <!-- specify the swagger yaml -->
+                                    <inputSpec>swagger.json</inputSpec>
+
+
+                                    <!-- target to generate -->
+                                    <language>javascript</language>
+
+
+                                    <!--&lt;!&ndash; override the default library to jersey2 &ndash;&gt;-->
+                                    <!--<library>javascript-client</library>-->
+                                    <verbose>true</verbose>
+                                    <configOptions>
+                                        <projectName>ocr-sdk</projectName>
+                                        <moduleName>ocr</moduleName>
+                                        <projectDescription>OCR Javascript SDK</projectDescription>
+                                        <projectVersion>${api-version}</projectVersion>
+                                        <usePromises>true</usePromises>
+                                    </configOptions>
+
+                                    <output>${project.basedir}/javascript</output>
+                                    <groupId>com.sphereon.sdk</groupId>
+                                    <artifactId>ocr-sdk-javascript</artifactId>
+                                    <artifactVersion>${project.version}</artifactVersion>
+                                    <addCompileSourceRoot>true</addCompileSourceRoot>
+                                    <apiPackage>${sdk-package}.api</apiPackage>
+                                    <modelPackage>${sdk-package}.model</modelPackage>
+                                    <invokerPackage>${sdk-package}.handler</invokerPackage>
+
+                                </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
     </profiles>
     <dependencies>
         <!-- dependencies are needed for the client being generated -->

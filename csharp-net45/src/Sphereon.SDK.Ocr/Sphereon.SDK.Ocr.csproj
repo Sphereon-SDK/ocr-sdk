@@ -24,7 +24,7 @@ limitations under the License.
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{CBD85B22-E594-4677-BE3F-5C3FCA3198ED}</ProjectGuid>
+    <ProjectGuid>{C1F8ED34-F505-4FAC-8580-29DA51E5D163}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Sphereon.SDK.Ocr</RootNamespace>

@@ -274,8 +274,37 @@
     "Word": {
       "description": "word",
       "type": "object",
-      "required": ["item"],
-      "properties": {"item": {"$ref": "#/definitions/Item"}}
+      "required": [
+        "region",
+        "text"
+      ],
+      "properties": {
+        "top": {
+          "format": "int32",
+          "description": "Simple location. See RegionSettings for more advanced location/region responses",
+          "type": "integer"
+        },
+        "left": {
+          "format": "int32",
+          "description": "Simple location. See RegionSettings for more advanced location/region responses",
+          "type": "integer"
+        },
+        "bottom": {
+          "format": "int32",
+          "description": "Simple location. See RegionSettings for more advanced location/region responses",
+          "type": "integer"
+        },
+        "right": {
+          "format": "int32",
+          "description": "Simple location. See RegionSettings for more advanced location/region responses",
+          "type": "integer"
+        },
+        "text": {
+          "description": "the text found by the OCR engine",
+          "type": "string"
+        },
+        "region": {"$ref": "#/definitions/Region"}
+      }
     },
     "OCRResult": {
       "description": "OCR Result",
@@ -330,6 +359,21 @@
           ]
         }
       }
+    },
+    "RegionSettings": {
+      "description": "Region settings. For now you can specify 3 result mode for regions/coordinates in a lost. Simple, Relative regions and Absolute regions",
+      "type": "object",
+      "properties": {"resultModes": {
+        "type": "array",
+        "items": {
+          "type": "string",
+          "enum": [
+            "SIMPLE_INLINE",
+            "ABSOLUTE_POINTS",
+            "RELATIVE_POINTS"
+          ]
+        }
+      }}
     },
     "Error": {
       "description": "An error",
@@ -459,21 +503,30 @@
     "Line": {
       "description": "Line",
       "type": "object",
-      "required": ["item"],
-      "properties": {"item": {"$ref": "#/definitions/Item"}}
-    },
-    "Item": {
-      "type": "object",
       "required": [
-        "confidence",
         "region",
         "text"
       ],
       "properties": {
-        "confidence": {
-          "format": "float",
-          "description": "confidence value of the text found by the OCR engine",
-          "type": "number"
+        "top": {
+          "format": "int32",
+          "description": "Simple location. See RegionSettings for more advanced location/region responses",
+          "type": "integer"
+        },
+        "left": {
+          "format": "int32",
+          "description": "Simple location. See RegionSettings for more advanced location/region responses",
+          "type": "integer"
+        },
+        "bottom": {
+          "format": "int32",
+          "description": "Simple location. See RegionSettings for more advanced location/region responses",
+          "type": "integer"
+        },
+        "right": {
+          "format": "int32",
+          "description": "Simple location. See RegionSettings for more advanced location/region responses",
+          "type": "integer"
         },
         "text": {
           "description": "the text found by the OCR engine",
@@ -517,7 +570,6 @@
     "Anchor": {
       "description": "Anchor",
       "type": "object",
-      "required": ["point"],
       "properties": {
         "percentage": {"$ref": "#/definitions/Point"},
         "point": {"$ref": "#/definitions/Point"}
@@ -528,7 +580,6 @@
       "type": "object",
       "required": [
         "engine",
-        "lines",
         "pass",
         "words"
       ],
@@ -544,7 +595,7 @@
         },
         "pass": {
           "format": "int32",
-          "description": "pass number",
+          "description": "OCR pass number",
           "type": "integer"
         },
         "words": {
@@ -553,7 +604,7 @@
           "items": {"$ref": "#/definitions/Word"}
         },
         "lines": {
-          "description": "lines found by OCR engine",
+          "description": "lines found by OCR engine (when supported by engine)",
           "type": "array",
           "items": {"$ref": "#/definitions/Line"}
         }
@@ -571,7 +622,8 @@
             "ADVANCED",
             "PREMIUM"
           ]
-        }
+        },
+        "regionSettings": {"$ref": "#/definitions/RegionSettings"}
       }
     },
     "Region": {

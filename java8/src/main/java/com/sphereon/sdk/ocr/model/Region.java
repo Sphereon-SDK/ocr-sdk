@@ -36,7 +36,7 @@ import io.swagger.annotations.ApiModelProperty;
  * region
  */
 @ApiModel(description = "region")
-@javax.annotation.Generated(value = "class io.swagger.codegen.languages.JavaClientCodegen", date = "2017-03-22T10:09:02.404+01:00")
+@javax.annotation.Generated(value = "class io.swagger.codegen.languages.JavaClientCodegen", date = "2017-03-30T16:03:53.449+02:00")
 public class Region   {
   @SerializedName("bottomLeft")
   private Anchor bottomLeft = null;

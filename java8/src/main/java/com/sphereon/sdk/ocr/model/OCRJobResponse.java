@@ -40,7 +40,7 @@ import java.util.List;
  * The OCR job. Has access to the job settings as well as ocr engine tasks
  */
 @ApiModel(description = "The OCR job. Has access to the job settings as well as ocr engine tasks")
-@javax.annotation.Generated(value = "class io.swagger.codegen.languages.JavaClientCodegen", date = "2017-03-22T10:09:02.404+01:00")
+@javax.annotation.Generated(value = "class io.swagger.codegen.languages.JavaClientCodegen", date = "2017-03-30T16:03:53.449+02:00")
 public class OCRJobResponse   {
   @SerializedName("completionTime")
   private OffsetDateTime completionTime = null;

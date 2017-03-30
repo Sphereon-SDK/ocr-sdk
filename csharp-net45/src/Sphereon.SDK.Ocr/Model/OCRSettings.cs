@@ -75,10 +75,12 @@ namespace Sphereon.SDK.Ocr.Model
         /// </summary>
         /// <param name="Lifecycle">Lifecycle.</param>
         /// <param name="Engine">Engine.</param>
-        public OCRSettings(Lifecycle Lifecycle = null, EngineEnum? Engine = null)
+        /// <param name="RegionSettings">RegionSettings.</param>
+        public OCRSettings(Lifecycle Lifecycle = null, EngineEnum? Engine = null, RegionSettings RegionSettings = null)
         {
             this.Lifecycle = Lifecycle;
             this.Engine = Engine;
+            this.RegionSettings = RegionSettings;
         }
         
         /// <summary>
@@ -86,6 +88,11 @@ namespace Sphereon.SDK.Ocr.Model
         /// </summary>
         [DataMember(Name="lifecycle", EmitDefaultValue=false)]
         public Lifecycle Lifecycle { get; set; }
+        /// <summary>
+        /// Gets or Sets RegionSettings
+        /// </summary>
+        [DataMember(Name="regionSettings", EmitDefaultValue=false)]
+        public RegionSettings RegionSettings { get; set; }
         /// <summary>
         /// Returns the string presentation of the object
         /// </summary>
@@ -96,6 +103,7 @@ namespace Sphereon.SDK.Ocr.Model
             sb.Append("class OCRSettings {\n");
             sb.Append("  Lifecycle: ").Append(Lifecycle).Append("\n");
             sb.Append("  Engine: ").Append(Engine).Append("\n");
+            sb.Append("  RegionSettings: ").Append(RegionSettings).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
         }
@@ -141,6 +149,11 @@ namespace Sphereon.SDK.Ocr.Model
                     this.Engine == other.Engine ||
                     this.Engine != null &&
                     this.Engine.Equals(other.Engine)
+                ) && 
+                (
+                    this.RegionSettings == other.RegionSettings ||
+                    this.RegionSettings != null &&
+                    this.RegionSettings.Equals(other.RegionSettings)
                 );
         }
 
@@ -159,6 +172,8 @@ namespace Sphereon.SDK.Ocr.Model
                     hash = hash * 59 + this.Lifecycle.GetHashCode();
                 if (this.Engine != null)
                     hash = hash * 59 + this.Engine.GetHashCode();
+                if (this.RegionSettings != null)
+                    hash = hash * 59 + this.RegionSettings.GetHashCode();
                 return hash;
             }
         }

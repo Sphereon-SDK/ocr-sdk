@@ -86,7 +86,7 @@ limitations under the License.
   <Import Project="$(MsBuildToolsPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
       <ProjectReference Include="..\Sphereon.SDK.Ocr\Sphereon.SDK.Ocr.csproj">
-          <Project>{CBD85B22-E594-4677-BE3F-5C3FCA3198ED}</Project>
+          <Project>{C1F8ED34-F505-4FAC-8580-29DA51E5D163}</Project>
           <Name>Sphereon.SDK.Ocr</Name>
       </ProjectReference>
   </ItemGroup>

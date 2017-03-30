@@ -42,25 +42,12 @@ namespace Sphereon.SDK.Ocr.Model
         /// <summary>
         /// Initializes a new instance of the <see cref="Anchor" /> class.
         /// </summary>
-        [JsonConstructorAttribute]
-        protected Anchor() { }
-        /// <summary>
-        /// Initializes a new instance of the <see cref="Anchor" /> class.
-        /// </summary>
         /// <param name="Percentage">Percentage.</param>
-        /// <param name="Point">Point (required).</param>
+        /// <param name="Point">Point.</param>
         public Anchor(Point Percentage = null, Point Point = null)
         {
-            // to ensure "Point" is required (not null)
-            if (Point == null)
-            {
-                throw new InvalidDataException("Point is a required property for Anchor and cannot be null");
-            }
-            else
-            {
-                this.Point = Point;
-            }
             this.Percentage = Percentage;
+            this.Point = Point;
         }
         
         /// <summary>
