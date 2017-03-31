@@ -8,9 +8,9 @@ The current version is restricted to image files only. When multipage processing
 ## Available SDKs
 
 The SDK currently supports the folowing languages:
- * [Java - Jersey2](tree/master/java8-jersey2)
- * [C# .NET](tree/mater/csharp-net45)
- * [Javascript](tree/mater/javascript)
+ * [Java](java8)
+ * [C# .NET](csharp-net45)
+ * [Javascript](javascript)
  * [Javascript (external)](https://github.com/swagger-api/swagger-js/tree/2.x)
  
 SDKs for the following languages will follow soon:
