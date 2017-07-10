@@ -1,7 +1,8 @@
 {
   "basePath": "/",
   "paths": {
-    "/ocr/1.0.0/ocr/{jobid}/result": {"get": {
+    "/recognition/ocr/1.0/ocr/{jobid}/result": {
+      "get": {
       "summary": "Get the current ocr result",
       "security": [{"oauth2schema": ["global"]}],
       "produces": ["application/json;charset=UTF-8"],
@@ -35,67 +36,7 @@
       "tags": ["ocr"],
       "consumes": ["application/json"]
     }},
-    "/ocr/1.0.0/ocr": {
-      "post": {
-        "summary": "Upload first file",
-        "security": [{"oauth2schema": ["global"]}],
-        "produces": ["application/json;charset=UTF-8"],
-        "description": "Upload the first image file.",
-        "operationId": "uploadFile",
-        "responses": {"200": {
-          "schema": {"$ref": "#/definitions/OCRJobResponse"},
-          "description": "First file uploaded successfully. OCR job created but not started yet"
-        }},
-        "parameters": [{
-          "in": "formData",
-          "name": "stream",
-          "description": "The image file to convert to OCR",
-          "type": "file",
-          "required": true
-        }],
-        "tags": ["ocr"],
-        "consumes": ["multipart/form-data"]
-      },
-      "get": {
-        "summary": "Get all jobs",
-        "security": [{"oauth2schema": ["global"]}],
-        "produces": ["application/json;charset=UTF-8"],
-        "description": "Get all OCR job definitions and their current state.",
-        "operationId": "getJobs",
-        "responses": {"200": {
-          "schema": {"$ref": "#/definitions/OCRJobResponse"},
-          "description": "All OCR jobs that have not been deleted"
-        }},
-        "parameters": [{
-          "in": "query",
-          "name": "status",
-          "description": "A list of status to filter on.",
-          "type": "array",
-          "items": {
-            "type": "string",
-            "enum": [
-              "INPUTS_UPLOADED",
-              "PROCESSING",
-              "DONE",
-              "ERROR",
-              "DELETED"
-            ]
-          },
-          "collectionFormat": "multi",
-          "required": false,
-          "enum": [
-            "INPUTS_UPLOADED",
-            "PROCESSING",
-            "DONE",
-            "ERROR",
-            "DELETED"
-          ]
-        }],
-        "tags": ["ocr"],
-        "consumes": ["application/json"]
-      }
-    },
-    "/ocr/1.0.0/ocr/{jobid}": {
+    "/recognition/ocr/1.0/ocr/{jobid}": {
       "get": {
         "summary": "Job definition and state",
         "security": [{"oauth2schema": ["global"]}],
@@ -194,6 +135,102 @@
         ],
         "tags": ["ocr"],
         "consumes": ["application/json;charset=UTF-8"]
+      }
+    },
+    "/recognition/ocr/1.0/ocr": {
+      "post": {
+        "summary": "Upload first file",
+        "security": [
+          {
+            "oauth2schema": [
+              "global"
+            ]
+          }
+        ],
+        "produces": [
+          "application/json;charset=UTF-8"
+        ],
+        "description": "Upload the first image file.",
+        "operationId": "uploadFile",
+        "responses": {
+          "200": {
+            "schema": {
+              "$ref": "#/definitions/OCRJobResponse"
+            },
+            "description": "First file uploaded successfully. OCR job created but not started yet"
+          }
+        },
+        "parameters": [
+          {
+            "in": "formData",
+            "name": "stream",
+            "description": "The image file to convert to OCR",
+            "type": "file",
+            "required": true
+          }
+        ],
+        "tags": [
+          "ocr"
+        ],
+        "consumes": [
+          "multipart/form-data"
+        ]
+      },
+      "get": {
+        "summary": "Get all jobs",
+        "security": [
+          {
+            "oauth2schema": [
+              "global"
+            ]
+          }
+        ],
+        "produces": [
+          "application/json;charset=UTF-8"
+        ],
+        "description": "Get all OCR job definitions and their current state.",
+        "operationId": "getJobs",
+        "responses": {
+          "200": {
+            "schema": {
+              "$ref": "#/definitions/OCRJobResponse"
+            },
+            "description": "All OCR jobs that have not been deleted"
+          }
+        },
+        "parameters": [
+          {
+            "in": "query",
+            "name": "status",
+            "description": "A list of status to filter on.",
+            "type": "array",
+            "items": {
+              "type": "string",
+              "enum": [
+                "INPUTS_UPLOADED",
+                "PROCESSING",
+                "DONE",
+                "ERROR",
+                "DELETED"
+              ]
+            },
+            "collectionFormat": "multi",
+            "required": false,
+            "enum": [
+              "INPUTS_UPLOADED",
+              "PROCESSING",
+              "DONE",
+              "ERROR",
+              "DELETED"
+            ]
+          }
+        ],
+        "tags": [
+          "ocr"
+        ],
+        "consumes": [
+          "application/json"
+        ]
       }
     }
   },
@@ -735,7 +772,7 @@
     "description": "<b>The OCR API 'ocr' performs Optical Character Resolution on input files.<\/b>\r\n\r\nThe flow is generally as follows:\r\n1. First upload an image/file using the /ocr POST endpoint. You will get back a job response that contains a job with its associated settings.\r\n2. Start the job from a PUT request to the /ocr/{jobid} endpoint, with the Job and Settings JSON as request body. The ocr extraction will now start.\r\n3. Check the job status from the /ocr/{jobid} GET endpoint until the status has changed to DONE or ERROR. Messaging using a websocket will be available as an alternative in a future version\r\n4. Retrieve the OCR result using the /ocr/{jobid}/result GET endpoint. This will return the OCR result only when the status is DONE. In other cases it will return the Job Response JSON (with http code 202 instead of 200)\r\n\r\n\r\n<b>Interactive testing: <\/b>A web based test console is available in the <a href=\"https://store.sphereon.com\">Sphereon API Store<\/a>",
     "termsOfService": "https://sphereon.com",
     "title": "OCR",
-    "version": "1.0.0"
+    "version": "1.0"
   },
   "tags": [{
     "name": "ocr",

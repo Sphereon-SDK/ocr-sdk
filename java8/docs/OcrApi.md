@@ -4,12 +4,12 @@ All URIs are relative to *https://gw.api.cloud.sphereon.com/*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
-[**deleteJob**](OcrApi.md#deleteJob) | **DELETE** /ocr/1.0.0/ocr/{jobid} | Delete a job manually
-[**getJob**](OcrApi.md#getJob) | **GET** /ocr/1.0.0/ocr/{jobid} | Job definition and state
-[**getJobs**](OcrApi.md#getJobs) | **GET** /ocr/1.0.0/ocr | Get all jobs
-[**getResult**](OcrApi.md#getResult) | **GET** /ocr/1.0.0/ocr/{jobid}/result | Get the current ocr result
-[**submitJob**](OcrApi.md#submitJob) | **PUT** /ocr/1.0.0/ocr/{jobid} | Submit OCR job for processing
-[**uploadFile**](OcrApi.md#uploadFile) | **POST** /ocr/1.0.0/ocr | Upload first file
+[**deleteJob**](OcrApi.md#deleteJob) | **DELETE** /recognition/ocr/1.0/ocr/{jobid} | Delete a job manually
+[**getJob**](OcrApi.md#getJob) | **GET** /recognition/ocr/1.0/ocr/{jobid} | Job definition and state
+[**getJobs**](OcrApi.md#getJobs) | **GET** /recognition/ocr/1.0/ocr | Get all jobs
+[**getResult**](OcrApi.md#getResult) | **GET** /recognition/ocr/1.0/ocr/{jobid}/result | Get the current ocr result
+[**submitJob**](OcrApi.md#submitJob) | **PUT** /recognition/ocr/1.0/ocr/{jobid} | Submit OCR job for processing
+[**uploadFile**](OcrApi.md#uploadFile) | **POST** /recognition/ocr/1.0/ocr | Upload first file
 
 
 <a name="deleteJob"></a>

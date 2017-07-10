@@ -49,16 +49,6 @@ public class OcrApiTests {
 
 
     /**
-     * Temporarily use local microservice
-     * FIXME remove before deployment
-     */
-    @Before
-    public void setToLocalMicroservice(){
-        api.getApiClient().setBasePath(getServiceUrl());
-    }
-
-
-    /**
      * Upload (first) file
      * <p>
      * Upload an file for ocr extraction. Ocr extraction will not be started yet
